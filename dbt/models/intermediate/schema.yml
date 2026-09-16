@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: int_catalog_availability
+    columns:
+      - name: sku
+        tests: [not_null]
+      - name: punto_venta_id
+        tests: [not_null]
+
+  - name: int_lead_model_match
+    columns:
+      - name: raw_row_id
+        tests: [not_null, unique]
+      - name: match_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['MATCHED', 'REVIEW', 'AMBIGUOUS', 'UNMATCHED', 'MISSING']
+      - name: match_method
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['normalized_exact', 'alias', 'fuzzy', 'none']
+      - name: sku
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_catalogo_motos')
+                field: sku

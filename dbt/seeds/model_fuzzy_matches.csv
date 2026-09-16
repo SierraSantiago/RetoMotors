@@ -1,0 +1,31 @@
+modelo_interes_normalizado,top_1,top_1_score,top_2,top_2_score,margin,decision,sku
+a k t dynamic r3 125,akt dynamic r3 125,0.9474,akt nkd 125,0.5806,0.3667,MATCHED,SKU-018
+a k t evo rs 150,akt evo rs 150,0.9333,akt dynamic r3 125,0.5294,0.4039,MATCHED,SKU-020
+a k t nkd 125,akt nkd 125,0.9167,akt dynamic r3 125,0.5806,0.3360,MATCHED,SKU-017
+a k t ttr 200,akt ttr 200,0.9167,akt evo rs 150,0.5185,0.3981,MATCHED,SKU-019
+akt,akt nkd 125,0.4286,akt ttr 200,0.4286,0.0000,AMBIGUOUS,SKU-017
+bajai boxer ct 100,bajaj boxer ct 100,0.9444,bajaj dominar 400,0.5714,0.3730,MATCHED,SKU-007
+bajai discover 125,bajaj discover 125,0.9444,bajaj pulsar ns 125,0.5946,0.3498,MATCHED,SKU-012
+bajai dominar 400,bajaj dominar 400,0.9412,bajaj boxer ct 100,0.5714,0.3697,MATCHED,SKU-011
+bajai pulsar ns 125,bajaj pulsar ns 125,0.9474,bajaj pulsar ns 160,0.8421,0.1053,MATCHED,SKU-008
+bajai pulsar ns 160,bajaj pulsar ns 160,0.9474,bajaj pulsar ns 125,0.8421,0.1053,MATCHED,SKU-009
+bajai pulsar rs 200,bajaj pulsar rs 200,0.9474,bajaj pulsar ns 125,0.7895,0.1579,MATCHED,SKU-010
+bajaj,bajaj dominar 400,0.4545,bajaj boxer ct 100,0.4348,0.0198,AMBIGUOUS,SKU-011
+bajaj pulsar,bajaj pulsar ns 125,0.7742,bajaj pulsar ns 160,0.7742,0.0000,AMBIGUOUS,SKU-008
+hero,hero dash 110,0.4706,hero hunk 160r,0.4444,0.0261,AMBIGUOUS,SKU-024
+heroo dash 110,hero dash 110,0.9630,hero hunk 160r,0.6429,0.3201,MATCHED,SKU-024
+heroo eco deluxe 100,hero eco deluxe 100,0.9744,hero xpulse 200,0.5714,0.4029,MATCHED,SKU-021
+heroo hunk 160r,hero hunk 160r,0.9655,hero dash 110,0.6429,0.3227,MATCHED,SKU-022
+heroo xpulse 200,hero xpulse 200,0.9677,hero eco deluxe 100,0.6286,0.3392,MATCHED,SKU-023
+hnda cb 125f twister,honda cb 125f twister,0.9756,honda cb 190r,0.6061,0.3695,MATCHED,SKU-001
+hnda cb 190r,honda cb 190r,0.9600,honda xr 150l,0.6400,0.3200,MATCHED,SKU-003
+hnda dio 110,honda dio 110,0.9600,honda xr 150l,0.6400,0.3200,MATCHED,SKU-005
+hnda navi,honda navi,0.9474,honda dio 110,0.5455,0.4019,MATCHED,SKU-004
+hnda xr 150l,honda xr 150l,0.9600,honda xre 300,0.7200,0.2400,MATCHED,SKU-002
+hnda xre 300,honda xre 300,0.9600,honda xr 150l,0.7200,0.2400,MATCHED,SKU-006
+honda,honda navi,0.6667,honda xr 150l,0.5556,0.1111,AMBIGUOUS,SKU-004
+honda cb,honda cb 190r,0.7619,honda navi,0.6667,0.0952,AMBIGUOUS,SKU-003
+suzuki,suzuki gn 125,0.6316,suzuki best 125,0.5714,0.0602,AMBIGUOUS,SKU-013
+suzuky gixxer 150,suzuki gixxer 150,0.9412,suzuki gn 125,0.6667,0.2745,MATCHED,SKU-014
+suzuky gn 125,suzuki gn 125,0.9231,suzuki best 125,0.7143,0.2088,MATCHED,SKU-013
+suzuky v strom 250,suzuki v strom 250,0.9444,suzuki best 125,0.6667,0.2778,MATCHED,SKU-015
