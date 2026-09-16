@@ -23,6 +23,9 @@ dependencies = [
   "langchain-openai>=0.2,<1"
 ]
 
+[project.scripts]
+ingest-data = "reto_ia.ingestion.cli:main"
+
 [dependency-groups]
 dev = [
   "pytest>=8.3,<9",
