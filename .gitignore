@@ -1,0 +1,54 @@
+# =========================
+# Environment / secrets
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Python
+# =========================
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+dist/
+build/
+*.egg-info/
+
+# =========================
+# Assessment source data
+# Keep directories, never version source files
+# =========================
+data/input/*
+data/quarantine/*
+!data/input/.gitkeep
+!data/quarantine/.gitkeep
+
+# =========================
+# Generated local reports
+# =========================
+reports/*.local.json
+docs/*
+
+# =========================
+# dbt
+# =========================
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+
+# =========================
+# Frontend
+# =========================
+frontend/node_modules/
+frontend/dist/
+
+# =========================
+# IDE / OS
+# =========================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,66 @@
+{
+  "leads": {
+    "rows": 1503,
+    "unique_lead_ids": 1501,
+    "duplicate_ids": [
+      "LD-00011",
+      "LD-00251"
+    ],
+    "null_email": 700,
+    "null_city": 79,
+    "null_model": 80,
+    "null_first_contact": 487,
+    "raw_city_variants": 37,
+    "canonical_cities": 11,
+    "raw_model_variants": 190,
+    "basic_exact_catalog_matches": 1062,
+    "invalid_phones": 1,
+    "global_duplicate_phone_groups": 141,
+    "cross_company_duplicate_phone_groups": 91,
+    "within_company_duplicate_phone_groups": 51,
+    "managed_state_missing_first_contact": 86,
+    "ambiguous_slash_registration_dates": 51
+  },
+  "conversations": {
+    "rows": 677,
+    "unique_conversation_ids": 677,
+    "unique_lead_ids": 652,
+    "current_unique_leads_linked": 640,
+    "coverage_current_unique_leads_pct": 42.64,
+    "leads_with_two_conversations": 25,
+    "orphan_conversations": 12,
+    "avg_messages": 6.37
+  },
+  "catalog": {
+    "rows": 24,
+    "brands": 5,
+    "historical_price_mismatches": 0,
+    "exact_matched_current_unavailable": 517,
+    "exact_matched_current_total": 1062
+  },
+  "advisors": {
+    "rows": 42,
+    "active": 40,
+    "inactive": 2,
+    "active_daily_capacity": 694,
+    "points": 15,
+    "companies": 3
+  },
+  "historical": {
+    "rows": 2200,
+    "date_min": "2026-03-01",
+    "date_max": "2026-07-28",
+    "closed": 197,
+    "lost": 1824,
+    "unmanaged": 179,
+    "close_rate_pct": 8.95,
+    "close_rate_contacted_only_pct": 9.75,
+    "not_touched_by_24h_or_never_pct": 42.86,
+    "close_rate_le_1h_pct": 15.12,
+    "close_rate_gt_48h_pct": 5.75,
+    "close_rate_initial_yes_pct": 10.94,
+    "close_rate_initial_no_info_pct": 7.02,
+    "close_rate_appointment_yes_pct": 10.95,
+    "close_rate_appointment_no_pct": 8.14
+  }
+}
