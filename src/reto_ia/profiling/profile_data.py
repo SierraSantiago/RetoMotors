@@ -4,6 +4,7 @@ import argparse
 import json
 import re
 import unicodedata
+from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
@@ -58,6 +59,56 @@ def normalize_model(value):
     return re.sub(r"\s+", " ", value).strip()
 
 
+def parse_date_status(value):
+    """Classify dates using the same deterministic policy as dbt staging."""
+    if pd.isna(value) or str(value).strip() == "":
+        return "MISSING"
+
+    text = str(value).strip()
+    date_part = text[:10]
+
+    if re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", date_part):
+        try:
+            datetime.strptime(date_part, "%Y-%m-%d")
+        except ValueError:
+            return "INVALID"
+        return "VALID"
+
+    if re.fullmatch(r"[0-9]{2}-[0-9]{2}-[0-9]{4}", text):
+        try:
+            datetime.strptime(text, "%d-%m-%Y")
+        except ValueError:
+            return "INVALID"
+        return "VALID"
+
+    slash_match = re.match(r"^([0-9]{1,2})/([0-9]{1,2})/([0-9]{4})(?:[ T].*)?$", text)
+    if slash_match:
+        first, second, year = map(int, slash_match.groups())
+        if first <= 12 and second <= 12:
+            return "AMBIGUOUS"
+        fmt = "%d/%m/%Y" if first > 12 else "%m/%d/%Y"
+        try:
+            datetime.strptime(f"{first}/{second}/{year}", fmt)
+        except ValueError:
+            return "INVALID"
+        return "VALID"
+
+    return "INVALID"
+
+
+def date_format(value):
+    if pd.isna(value) or str(value).strip() == "":
+        return "OTHER"
+    text = str(value).strip()
+    if re.match(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}", text):
+        return "ISO"
+    if re.fullmatch(r"[0-9]{2}-[0-9]{2}-[0-9]{4}", text):
+        return "DD-MM-YYYY"
+    if re.match(r"^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}", text):
+        return "SLASH"
+    return "OTHER"
+
+
 def profile(input_dir: Path) -> dict:
     leads = pd.read_csv(input_dir / "leads.csv")
     catalog = pd.read_csv(input_dir / "catalogo_motos.csv")
@@ -72,6 +123,11 @@ def profile(input_dir: Path) -> dict:
     leads["state_norm"] = leads["estado_gestion"].map(normalize_text)
     leads["city_norm"] = leads["ciudad"].map(normalize_city)
     leads["model_norm"] = leads["modelo_interes_texto"].map(normalize_model)
+    leads["fecha_registro_format"] = leads["fecha_registro"].map(date_format)
+    leads["fecha_registro_parse_status"] = leads["fecha_registro"].map(parse_date_status)
+    leads["fecha_primer_contacto_parse_status"] = leads[
+        "fecha_primer_contacto"
+    ].map(parse_date_status)
 
     catalog["canonical_name"] = catalog["marca"] + " " + catalog["linea"]
     catalog["model_norm"] = catalog["canonical_name"].map(normalize_model)
@@ -116,6 +172,12 @@ def profile(input_dir: Path) -> dict:
                 .value_counts(dropna=False).to_dict(),
             "normalized_state_counts": leads["state_norm"]
                 .value_counts(dropna=False).to_dict(),
+            "fecha_registro_formats": leads["fecha_registro_format"]
+                .value_counts(dropna=False).to_dict(),
+            "fecha_registro_parse_status": leads["fecha_registro_parse_status"]
+                .value_counts(dropna=False).to_dict(),
+            "fecha_primer_contacto_parse_status": leads["fecha_primer_contacto_parse_status"]
+                .value_counts(dropna=False).to_dict(),
             "raw_city_variants": leads["ciudad"].nunique(),
             "canonical_city_count": leads["city_norm"].nunique(),
             "raw_model_variants": leads["modelo_interes_texto"].nunique(),
@@ -131,6 +193,9 @@ def profile(input_dir: Path) -> dict:
             ),
             "within_company_duplicate_phone_groups": int(
                 (within_company > 1).sum()
+            ),
+            "ambiguous_slash_registration_dates": int(
+                (leads["fecha_registro_parse_status"] == "AMBIGUOUS").sum()
             ),
         },
         "conversations": {

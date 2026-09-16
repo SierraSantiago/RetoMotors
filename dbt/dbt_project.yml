@@ -14,7 +14,4 @@ models:
   reto_analista_ia:
     staging:
       +materialized: view
-    intermediate:
-      +materialized: view
-    marts:
-      +materialized: table
+      +schema: staging

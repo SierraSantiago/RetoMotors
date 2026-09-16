@@ -1,0 +1,72 @@
+version: 2
+
+models:
+  - name: stg_leads
+    description: "Leads RAW tipificados y normalizados determinísticamente; conserva lineage y valores RAW."
+    columns:
+      - name: raw_row_id
+        tests: [not_null]
+      - name: empresa_id
+        tests: [not_null]
+      - name: punto_venta_id
+        tests: []
+      - name: canal_normalizado
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['whatsapp', 'meta_ads', 'formulario_web']
+      - name: estado_gestion_normalizado
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['sin_gestion', 'contactado', 'no_contesta', 'cotizacion_enviada', 'en_proceso', 'descartado']
+      - name: telefono_parse_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['VALID', 'INVALID', 'MISSING']
+      - name: fecha_registro_parse_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['VALID', 'AMBIGUOUS', 'INVALID', 'MISSING']
+      - name: fecha_primer_contacto_parse_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['VALID', 'AMBIGUOUS', 'INVALID', 'MISSING']
+
+  - name: stg_conversations
+    columns:
+      - name: raw_row_id
+        tests: [not_null]
+
+  - name: stg_catalogo_motos
+    columns:
+      - name: sku
+        tests: [not_null, unique]
+      - name: precio_lista
+        tests: []
+      - name: unidades_disponibles
+        tests: []
+
+  - name: stg_asesores
+    columns:
+      - name: asesor_id
+        tests: [not_null, unique]
+      - name: capacidad_diaria_leads
+        tests: []
+
+  - name: stg_historico_cierres
+    columns:
+      - name: desenlace_normalizado
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['cerrado', 'perdido', 'sin gestion']
+      - name: is_closed
+        tests:
+          - accepted_values:
+              arguments:
+                values: [true, false]
+                quote: false

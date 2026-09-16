@@ -2,65 +2,100 @@
   "leads": {
     "rows": 1503,
     "unique_lead_ids": 1501,
-    "duplicate_ids": [
+    "duplicate_lead_ids": [
       "LD-00011",
       "LD-00251"
     ],
-    "null_email": 700,
-    "null_city": 79,
-    "null_model": 80,
-    "null_first_contact": 487,
+    "nulls": {
+      "lead_id": 0,
+      "fecha_registro": 0,
+      "canal": 1,
+      "empresa_id": 0,
+      "punto_venta_id": 0,
+      "nombre_cliente": 0,
+      "telefono": 0,
+      "email": 700,
+      "ciudad": 79,
+      "modelo_interes_texto": 80,
+      "estado_gestion": 0,
+      "fecha_primer_contacto": 487,
+      "campania": 434,
+      "phone_norm": 0,
+      "channel_norm": 1,
+      "state_norm": 0,
+      "city_norm": 79,
+      "model_norm": 80,
+      "fecha_registro_format": 0,
+      "fecha_registro_parse_status": 0,
+      "fecha_primer_contacto_parse_status": 0
+    },
+    "normalized_channel_counts": {
+      "whatsapp": 824,
+      "meta ads": 457,
+      "formulario web": 221,
+      "null": 1
+    },
+    "normalized_state_counts": {
+      "sin gestion": 401,
+      "contactado": 354,
+      "no contesta": 219,
+      "cotizacion enviada": 202,
+      "en proceso": 178,
+      "descartado": 149
+    },
+    "fecha_registro_formats": {
+      "ISO": 756,
+      "SLASH": 528,
+      "DD-MM-YYYY": 219
+    },
+    "fecha_registro_parse_status": {
+      "VALID": 1237,
+      "AMBIGUOUS": 265,
+      "INVALID": 1
+    },
+    "fecha_primer_contacto_parse_status": {
+      "VALID": 800,
+      "MISSING": 487,
+      "AMBIGUOUS": 216
+    },
     "raw_city_variants": 37,
-    "canonical_cities": 11,
+    "canonical_city_count": 11,
     "raw_model_variants": 190,
     "basic_exact_catalog_matches": 1062,
-    "invalid_phones": 1,
+    "invalid_phone_rows": 1,
     "global_duplicate_phone_groups": 141,
     "cross_company_duplicate_phone_groups": 91,
     "within_company_duplicate_phone_groups": 51,
-    "managed_state_missing_first_contact": 86,
-    "ambiguous_slash_registration_dates": 51
+    "ambiguous_slash_registration_dates": 265
   },
   "conversations": {
     "rows": 677,
     "unique_conversation_ids": 677,
     "unique_lead_ids": 652,
-    "current_unique_leads_linked": 640,
-    "coverage_current_unique_leads_pct": 42.64,
-    "leads_with_two_conversations": 25,
     "orphan_conversations": 12,
+    "leads_with_multiple_conversations": 25,
     "avg_messages": 6.37
   },
   "catalog": {
     "rows": 24,
     "brands": 5,
-    "historical_price_mismatches": 0,
-    "exact_matched_current_unavailable": 517,
-    "exact_matched_current_total": 1062
+    "unique_skus": 24,
+    "null_cells": 0
   },
   "advisors": {
     "rows": 42,
     "active": 40,
     "inactive": 2,
-    "active_daily_capacity": 694,
-    "points": 15,
-    "companies": 3
+    "active_daily_capacity": 694
   },
   "historical": {
     "rows": 2200,
-    "date_min": "2026-03-01",
-    "date_max": "2026-07-28",
-    "closed": 197,
-    "lost": 1824,
-    "unmanaged": 179,
+    "outcomes": {
+      "Perdido": 1824,
+      "Cerrado": 197,
+      "Sin gestión": 179
+    },
     "close_rate_pct": 8.95,
-    "close_rate_contacted_only_pct": 9.75,
-    "not_touched_by_24h_or_never_pct": 42.86,
-    "close_rate_le_1h_pct": 15.12,
-    "close_rate_gt_48h_pct": 5.75,
-    "close_rate_initial_yes_pct": 10.94,
-    "close_rate_initial_no_info_pct": 7.02,
-    "close_rate_appointment_yes_pct": 10.95,
-    "close_rate_appointment_no_pct": 8.14
+    "close_rate_contacted_only_pct": 9.75
   }
 }
