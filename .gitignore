@@ -45,6 +45,7 @@ dbt/.user.yml
 # =========================
 frontend/node_modules/
 frontend/dist/
+.vercel/
 
 # =========================
 # IDE / OS
