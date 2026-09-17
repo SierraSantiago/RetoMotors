@@ -1,0 +1,49 @@
+feature,coefficient,abs_coefficient,direction
+categorical__modelo_feature_honda navi,-1.0702636558477405,1.0702636558477405,negative
+categorical__modelo_feature_bajaj boxer ct 100,-0.8504984611766752,0.8504984611766752,negative
+categorical__modelo_feature_akt ttr 200,-0.7952160180276613,0.7952160180276613,negative
+categorical__punto_venta_id_PV-015,-0.7946786583648037,0.7946786583648037,negative
+categorical__modelo_feature_bajaj pulsar ns 160,0.5817059044005426,0.5817059044005426,positive
+categorical__modelo_feature_hero eco deluxe 100,0.5539045631079913,0.5539045631079913,positive
+categorical__modelo_feature_honda xre 300,-0.5485305022865338,0.5485305022865338,negative
+categorical__modelo_feature_suzuki v strom 250,0.5482887404142776,0.5482887404142776,positive
+categorical__modelo_feature_bajaj discover 125,0.5285834137326816,0.5285834137326816,positive
+categorical__modelo_feature_hero dash 110,-0.4870452009904484,0.4870452009904484,negative
+categorical__modelo_feature_suzuki best 125,0.44181507750253807,0.44181507750253807,positive
+categorical__modelo_feature_honda xr 150l,0.4406977262825762,0.4406977262825762,positive
+categorical__modelo_feature_akt evo rs 150,0.373113292352981,0.373113292352981,positive
+categorical__punto_venta_id_PV-005,-0.37225678805080403,0.37225678805080403,negative
+categorical__punto_venta_id_PV-009,0.3428873730822576,0.3428873730822576,positive
+categorical__punto_venta_id_PV-010,-0.3199959816281799,0.3199959816281799,negative
+categorical__punto_venta_id_PV-014,0.30988905946800666,0.30988905946800666,positive
+categorical__punto_venta_id_PV-003,0.2876677394337511,0.2876677394337511,positive
+boolean__pidio_cita,0.27661366002586374,0.27661366002586374,positive
+categorical__modelo_feature_suzuki gixxer 150,0.2696667270213036,0.2696667270213036,positive
+categorical__punto_venta_id_PV-001,0.25907255082252306,0.25907255082252306,positive
+categorical__modelo_feature_honda dio 110,0.2559811914715183,0.2559811914715183,positive
+categorical__modelo_feature_bajaj dominar 400,-0.22106935731113417,0.22106935731113417,negative
+categorical__punto_venta_id_PV-006,-0.21260069371710147,0.21260069371710147,negative
+categorical__punto_venta_id_PV-011,0.19545900149031614,0.19545900149031614,positive
+categorical__modelo_feature_bajaj pulsar rs 200,0.1864488042919289,0.1864488042919289,positive
+categorical__modelo_feature_akt nkd 125,-0.15593619741309483,0.15593619741309483,negative
+categorical__modelo_feature_honda cb 190r,0.15566443154221207,0.15566443154221207,positive
+categorical__punto_venta_id_PV-013,0.1410344693671532,0.1410344693671532,positive
+categorical__modelo_feature_hero hunk 160r,-0.13226901474786415,0.13226901474786415,negative
+categorical__modelo_feature_honda cb 125f twister,0.12525292079425268,0.12525292079425268,positive
+categorical__punto_venta_id_PV-007,0.12500406144320741,0.12500406144320741,positive
+categorical__punto_venta_id_PV-002,-0.12324735717515782,0.12324735717515782,negative
+categorical__modelo_feature_bajaj pulsar ns 125,-0.11550551504927371,0.11550551504927371,negative
+categorical__punto_venta_id_PV-012,0.11542717743670848,0.11542717743670848,positive
+categorical__modelo_feature_hero xpulse 200,-0.10792930628446869,0.10792930628446869,negative
+categorical__canal_normalizado_meta_ads,-0.10264922303759715,0.10264922303759715,negative
+boolean__manifesto_cuota_inicial,0.09110461584278658,0.09110461584278658,positive
+categorical__empresa_id_EMP-01,0.08201336407319915,0.08201336407319915,positive
+categorical__empresa_id_EMP-02,-0.07434773083326165,0.07434773083326165,negative
+numeric__precio_lista,0.06989714483191715,0.06989714483191715,positive
+categorical__canal_normalizado_whatsapp,0.062160592014905085,0.062160592014905085,positive
+categorical__empresa_id_EMP-03,-0.032868950602617464,0.032868950602617464,negative
+categorical__punto_venta_id_PV-004,0.030777219042887775,0.030777219042887775,positive
+categorical__modelo_feature_suzuki gn 125,-0.024327401586989327,0.024327401586989327,negative
+categorical__modelo_feature_akt dynamic r3 125,0.022264520444399204,0.022264520444399204,positive
+categorical__canal_normalizado_formulario_web,0.015285313660009531,0.015285313660009531,positive
+categorical__punto_venta_id_PV-008,-0.009642490013446369,0.009642490013446369,negative

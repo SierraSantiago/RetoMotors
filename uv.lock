@@ -2976,6 +2976,7 @@ name = "reto-analista-ia"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "joblib" },
     { name = "langchain" },
     { name = "langchain-openai" },
     { name = "pandas" },
@@ -3000,6 +3001,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "joblib", specifier = ">=1.4,<2" },
     { name = "langchain", specifier = ">=0.3,<1" },
     { name = "langchain-openai", specifier = ">=0.2,<1" },
     { name = "pandas", specifier = ">=2.2,<3" },

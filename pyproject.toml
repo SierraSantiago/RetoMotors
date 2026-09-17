@@ -17,6 +17,7 @@ dependencies = [
   "supabase>=2.9,<3",
   "rapidfuzz>=3.9,<4",
   "scikit-learn>=1.5,<2",
+  "joblib>=1.4,<2",
   "prefect>=3.0,<4",
   "tenacity>=9.0,<10",
   "langchain>=0.3,<1",
@@ -26,6 +27,7 @@ dependencies = [
 [project.scripts]
 ingest-data = "reto_ia.ingestion.cli:main"
 process-conversations = "reto_ia.llm.cli:main"
+train-propensity = "reto_ia.ml.training:main"
 
 [dependency-groups]
 dev = [

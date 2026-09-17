@@ -1,0 +1,15 @@
+feature,classification,used,reason
+fecha_registro,TIMESTAMP,False,solo split temporal; no predictor
+empresa_id,ELIGIBLE,True,contexto disponible al ingreso
+punto_venta_id,ELIGIBLE,True,contexto disponible al ingreso
+canal_normalizado,ELIGIBLE,True,canal de entrada
+modelo_cotizado_normalizado/modelo_canonico,ELIGIBLE,True,modelo disponible al ingreso
+precio_lista,ELIGIBLE,True,precio disponible al ingreso
+manifesto_cuota_inicial,ELIGIBLE,True,declaración disponible al ingreso
+pidio_cita,ELIGIBLE,True,señal disponible en el registro
+desenlace_normalizado/is_closed,TARGET/OUTCOME,False,resultado usado como target
+lead_id/raw_row_id,IDENTIFIER,False,identificadores sin valor predictivo
+numero_contactos,POST_TREATMENT,False,resultado de gestión posterior
+horas_al_primer_contacto,POST_TREATMENT,False,operación posterior a priorización
+forma_pago_declarada,UNAVAILABLE_AT_SERVING,False,sin fuente equivalente segura en serving
+conversation_intencion/pidio_cotizacion/objecion,UNAVAILABLE_AT_TRAIN,False,sin equivalente histórico comparable

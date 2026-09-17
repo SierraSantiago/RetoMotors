@@ -1,0 +1,177 @@
+{
+  "model_type": "sklearn.linear_model.LogisticRegression",
+  "model_version": "propensity_logistic_v1",
+  "feature_columns": [
+    "precio_lista",
+    "empresa_id",
+    "punto_venta_id",
+    "canal_normalizado",
+    "modelo_feature",
+    "manifesto_cuota_inicial",
+    "pidio_cita"
+  ],
+  "numeric_features": [
+    "precio_lista"
+  ],
+  "categorical_features": [
+    "empresa_id",
+    "punto_venta_id",
+    "canal_normalizado",
+    "modelo_feature"
+  ],
+  "boolean_features": [
+    "manifesto_cuota_inicial",
+    "pidio_cita"
+  ],
+  "excluded_features": {
+    "outcome": "target/resultado comercial",
+    "fecha_cierre": "post-treatment/outcome; no existe como feature de entrada",
+    "numero_contactos": "post-treatment",
+    "horas_al_primer_contacto": "operacional posterior a la priorización inicial",
+    "lead_id": "identificador, no predictor",
+    "raw_row_id": "identificador, no predictor",
+    "conversation_intencion": "no existe históricamente de forma comparable",
+    "conversation_pidio_cotizacion": "no existe históricamente de forma comparable",
+    "conversation_objecion_principal": "no existe históricamente de forma comparable"
+  },
+  "leakage_audit": [
+    {
+      "feature": "fecha_registro",
+      "classification": "TIMESTAMP",
+      "used": false,
+      "reason": "solo split temporal; no predictor"
+    },
+    {
+      "feature": "empresa_id",
+      "classification": "ELIGIBLE",
+      "used": true,
+      "reason": "contexto disponible al ingreso"
+    },
+    {
+      "feature": "punto_venta_id",
+      "classification": "ELIGIBLE",
+      "used": true,
+      "reason": "contexto disponible al ingreso"
+    },
+    {
+      "feature": "canal_normalizado",
+      "classification": "ELIGIBLE",
+      "used": true,
+      "reason": "canal de entrada"
+    },
+    {
+      "feature": "modelo_cotizado_normalizado/modelo_canonico",
+      "classification": "ELIGIBLE",
+      "used": true,
+      "reason": "modelo disponible al ingreso"
+    },
+    {
+      "feature": "precio_lista",
+      "classification": "ELIGIBLE",
+      "used": true,
+      "reason": "precio disponible al ingreso"
+    },
+    {
+      "feature": "manifesto_cuota_inicial",
+      "classification": "ELIGIBLE",
+      "used": true,
+      "reason": "declaración disponible al ingreso"
+    },
+    {
+      "feature": "pidio_cita",
+      "classification": "ELIGIBLE",
+      "used": true,
+      "reason": "señal disponible en el registro"
+    },
+    {
+      "feature": "desenlace_normalizado/is_closed",
+      "classification": "TARGET/OUTCOME",
+      "used": false,
+      "reason": "resultado usado como target"
+    },
+    {
+      "feature": "lead_id/raw_row_id",
+      "classification": "IDENTIFIER",
+      "used": false,
+      "reason": "identificadores sin valor predictivo"
+    },
+    {
+      "feature": "numero_contactos",
+      "classification": "POST_TREATMENT",
+      "used": false,
+      "reason": "resultado de gestión posterior"
+    },
+    {
+      "feature": "horas_al_primer_contacto",
+      "classification": "POST_TREATMENT",
+      "used": false,
+      "reason": "operación posterior a priorización"
+    },
+    {
+      "feature": "forma_pago_declarada",
+      "classification": "UNAVAILABLE_AT_SERVING",
+      "used": false,
+      "reason": "sin fuente equivalente segura en serving"
+    },
+    {
+      "feature": "conversation_intencion/pidio_cotizacion/objecion",
+      "classification": "UNAVAILABLE_AT_TRAIN",
+      "used": false,
+      "reason": "sin equivalente histórico comparable"
+    }
+  ],
+  "target_mapping": {
+    "cerrado": 1,
+    "perdido": 0,
+    "sin gestion": "excluded"
+  },
+  "training_rows": 2021,
+  "train_rows": 1623,
+  "test_rows": 398,
+  "train_date_min": "2026-03-01 00:00:00",
+  "train_date_max": "2026-06-27 00:00:00",
+  "test_date_min": "2026-06-28 00:00:00",
+  "test_date_max": "2026-07-28 00:00:00",
+  "cutoff": "2026-06-27",
+  "train_positive_rate": 0.09919901417128774,
+  "test_positive_rate": 0.09045226130653267,
+  "capacity_share": 0.46174318030605455,
+  "training_data_hash": "9f300a3d8b784710f76eb5b2005b8f12a718d7e41ad67a50cb8392a6df3a976f",
+  "metrics": {
+    "roc_auc": 0.5234806629834254,
+    "pr_auc": 0.10033167983078897,
+    "brier_score": 0.0838063648340525,
+    "test_positive_rate": 0.09045226130653267,
+    "10pct": {
+      "k": 40,
+      "rows": 40,
+      "model_precision": 0.075,
+      "fifo_precision": 0.05,
+      "model_recall": 0.08333333333333333,
+      "fifo_recall": 0.05555555555555555,
+      "model_lift": 0.8291666666666666,
+      "fifo_lift": 0.5527777777777778
+    },
+    "20pct": {
+      "k": 80,
+      "rows": 80,
+      "model_precision": 0.1125,
+      "fifo_precision": 0.0875,
+      "model_recall": 0.25,
+      "fifo_recall": 0.19444444444444445,
+      "model_lift": 1.24375,
+      "fifo_lift": 0.967361111111111
+    },
+    "capacity_share": {
+      "k": 184,
+      "rows": 184,
+      "model_precision": 0.09782608695652174,
+      "fifo_precision": 0.09239130434782608,
+      "model_recall": 0.5,
+      "fifo_recall": 0.4722222222222222,
+      "model_lift": 1.0815217391304348,
+      "fifo_lift": 1.0214371980676327
+    }
+  },
+  "created_at": "2026-09-17T18:05:48.389827+00:00"
+}
