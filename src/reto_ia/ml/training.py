@@ -28,8 +28,7 @@ from reto_ia.ml.features import (
     training_query,
 )
 from reto_ia.ml.repository import fetch_capacity_share, fetch_rows, upsert_scores
-
-MODEL_VERSION = "propensity_logistic_v1"
+from reto_ia.ml.scoring import MODEL_VERSION, score_serving_frame
 
 
 def build_pipeline() -> Pipeline:
@@ -130,19 +129,8 @@ def run(output_dir: Path, database_url: str | None = None) -> dict[str, Any]:
     joblib.dump(pipeline, output_dir / "propensity_model.joblib")
     coefficients = coefficient_rows(pipeline)
     pd.DataFrame(coefficients).to_csv(output_dir / "propensity_coefficients.csv", index=False)
-    scores = pipeline.predict_proba(prepare_features(serving))[:, 1]
     scored_at = datetime.now(UTC)
-    score_rows = [
-        {
-            "raw_row_id": row.raw_row_id,
-            "lead_id": row.lead_id,
-            "propensity_score": float(score),
-            "model_version": MODEL_VERSION,
-            "training_data_hash": training_hash,
-            "scored_at": scored_at,
-        }
-        for row, score in zip(serving.itertuples(), scores, strict=True)
-    ]
+    score_rows, scores = score_serving_frame(pipeline, serving, training_hash, scored_at)
     with connect(db_url) as connection:
         upsert_scores(connection, score_rows)
     metadata = {
