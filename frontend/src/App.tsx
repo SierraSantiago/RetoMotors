@@ -1,83 +1,192 @@
-const metrics = [
-  { label: "Leads analizados", value: "1.503" },
-  { label: "Conversaciones", value: "677" },
-  { label: "Asesores activos", value: "40" },
-  { label: "Capacidad diaria", value: "694" },
-];
+import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { BrowserRouter, Link, Navigate, Route, Routes, useLocation, useNavigate, useParams } from "react-router-dom";
+import { BarChart3, CalendarDays, CheckCircle2, ChevronLeft, ChevronRight, CircleAlert, Clock3, Gauge, LayoutDashboard, LogOut, MapPin, Menu, MessageSquare, PhoneCall, Search, Store, UserRound, UsersRound, type LucideIcon } from "lucide-react";
+import { supabase } from "./lib/supabase";
+import "./styles.css";
 
-function App() {
-  return (
-    <main className="shell">
-      <aside className="sidebar">
-        <div>
-          <div className="brandMark">LP</div>
-          <h1>Lead Priority</h1>
-          <p className="muted">Sistema inteligente de gestión comercial</p>
-        </div>
+type Profile = { user_id: string; empresa_id: string; advisor_id: string | null; role: "advisor" | "manager" };
+type Lead = { raw_row_id: string; lead_id: string; empresa_id: string; punto_venta_id: string | null; nombre_cliente: string | null; telefono: string | null; email: string | null; canal: string | null; fecha_registro: string | null; modelo: string | null; is_available_at_store: boolean | null; priority_score: number; global_priority_rank: number; company_priority_rank?: number; temperature: string; priority_reasons: string[]; advisor_id: string | null; assignment_status: string; lead_age_hours: number; responded_at: string | null; responded_by: string | null };
+type Detail = Lead & { modelo_solicitado: string | null; modelo_canonico: string | null; conversation_modelo_interes?: string | null; precio_lista: number | null; intencion: string | null; presupuesto: number | null; cuota_inicial: number | null; forma_pago: string | null; objecion_principal: string | null; pidio_cita: boolean | null; pidio_cotizacion: boolean | null; conversation_component: number; sla_component: number; availability_component: number; propensity_component: number; propensity_score: number | null; propensity_percentile: number | null; assignment_date: string; conversation_count: number; conversation_ids: string[] | null };
+type ConversationMessage = { conversation_id: string; lead_id: string; conversation_started_at: string | null; conversation_channel: string | null; message_index: number; message_time: string | null; speaker: string | null; message_text: string | null };
+type Summary = { total_leads: number; assigned: number; backlog: number; no_eligible: number; hot: number; warm: number; cold: number; hot_backlog: number; capacity_total: number; capacity_used: number; responded: number; pending_response: number; managed_pct: number };
+type Capacity = { asesor_id: string; nombre: string | null; punto_venta_id: string; capacidad: number; asignados: number; responded: number; pending_response: number; load_ratio: number | null };
+type StoreSummary = { punto_venta_id: string; leads: number; asignados: number; backlog: number; hot: number; capacidad: number };
 
-        <nav>
-          <button className="navItem active">Resumen</button>
-          <button className="navItem" disabled>Mis leads</button>
-          <button className="navItem" disabled>Modelo</button>
-          <button className="navItem" disabled>Pipeline</button>
-        </nav>
+async function rpc<T>(name: string, params?: Record<string, unknown>) {
+  if (!supabase) throw new Error("Configuración de Supabase ausente.");
+  const result = await supabase.rpc(name, params || {});
+  if (result.error) {
+    if (import.meta.env.DEV) console.error(`Supabase RPC ${name} failed`, result.error);
+    throw result.error;
+  }
+  return result.data as T;
+}
+const money = (value: number | null | undefined) => value == null ? "No informado" : new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(value);
+const dateText = (value: string | null | undefined) => value ? new Intl.DateTimeFormat("es-CO", { dateStyle: "medium" }).format(new Date(value + "T12:00:00")) : "No informada";
+const ageText = (hours: number | null | undefined) => hours == null ? "No disponible" : hours < 24 ? Math.round(hours) + " h" : Math.floor(hours / 24) + " d";
+const label = (value: string | null | undefined) => value ? value.replace(/_/g, " ").replace(/\b\w/g, (x: string) => x.toUpperCase()) : "No informado";
+const statusText = (value: string) => ({ ASSIGNED: "Asignado", UNASSIGNED_CAPACITY: "En backlog", NO_ELIGIBLE_ADVISOR: "Sin asesor elegible" }[value] || "No definido");
+const availabilityText = (value: boolean | null) => value === true ? "Disponible" : value === false ? "No disponible" : "Desconocida";
+const dateTimeText = (date: string | null, time: string | null) => { if (!date && !time) return "Hora no informada"; const datePart = date ? new Intl.DateTimeFormat("es-CO", { day: "2-digit", month: "short", year: "numeric" }).format(new Date(date + "T12:00:00")) : "Fecha no informada"; return time ? datePart + " · " + time : datePart; };
 
-        <div className="status">
-          <span className="dot" />
-          Etapa 1 completada
-        </div>
-      </aside>
+function BrandMark() {
+  return <Link to="/leads" className="brand"><span className="brand-icon"><Gauge size={21} /></span><span><strong>Motos y Servicios de Colombia</strong><small>Gestión comercial</small></span></Link>;
+}
+function TemperatureBadge({ value }: { value: string }) { return <span className={"temperature " + value.toLowerCase()}>{value}</span>; }
+function AssignmentBadge({ value }: { value: string }) { return <span className={"assignment " + value.toLowerCase()}>{statusText(value)}</span>; }
+function AvailabilityBadge({ value }: { value: boolean | null }) { return <span className={"availability " + (value === true ? "available" : value === false ? "unavailable" : "unknown")}><span className="status-dot" />{availabilityText(value)}</span>; }
+function PriorityScore({ value }: { value: number }) { return <div className="priority-score"><strong>{Math.round(value)}</strong><span className="score-track"><i style={{ width: value + "%" }} /></span></div>; }
 
-      <section className="content">
-        <header>
-          <div>
-            <span className="eyebrow">RETO TÉCNICO · ANALISTA IA</span>
-            <h2>Entendimiento de datos</h2>
-            <p>
-              Perfilado reproducible de las fuentes antes de definir limpieza,
-              deduplicación, IA y priorización.
-            </p>
-          </div>
-          <div className="badge">Development</div>
-        </header>
-
-        <div className="metricGrid">
-          {metrics.map((metric) => (
-            <article className="metricCard" key={metric.label}>
-              <span>{metric.label}</span>
-              <strong>{metric.value}</strong>
-            </article>
-          ))}
-        </div>
-
-        <div className="grid">
-          <article className="panel">
-            <span className="eyebrow">CALIDAD</span>
-            <h3>Hallazgos principales</h3>
-            <ul>
-              <li>Formatos heterogéneos de fechas, ciudades y canales.</li>
-              <li>Duplicados dentro y entre comercializadoras.</li>
-              <li>190 textos de modelo para 24 referencias oficiales.</li>
-              <li>Conversaciones con relación 1:N respecto al lead.</li>
-              <li>Registros corruptos que deben ir a cuarentena.</li>
-            </ul>
-          </article>
-
-          <article className="panel accent">
-            <span className="eyebrow">SIGUIENTE ETAPA</span>
-            <h3>PostgreSQL RAW</h3>
-            <p>
-              Diseñar el modelo de datos e implementar una ingestión idempotente
-              y trazable sobre Supabase/PostgreSQL.
-            </p>
-            <div className="flow">
-              <span>Sources</span><b>→</b><span>Python</span><b>→</b><span>RAW</span>
-            </div>
-          </article>
-        </div>
-      </section>
-    </main>
-  );
+function Login() {
+  const navigate = useNavigate(); const [email, setEmail] = useState(""); const [password, setPassword] = useState(""); const [error, setError] = useState(""); const [loading, setLoading] = useState(false);
+  const submit = async (event: FormEvent) => { event.preventDefault(); if (!supabase) { setError("La conexión aún no está configurada."); return; } setLoading(true); setError(""); const result = await supabase.auth.signInWithPassword({ email, password }); if (result.error) setError("No fue posible iniciar sesión. Verifica tus credenciales."); else navigate("/leads"); setLoading(false); };
+  return <main className="login-page"><section className="login-brand"><BrandMark /><div className="login-message"><span className="eyebrow">CENTRO DE OPERACIONES COMERCIALES</span><h1>Una jornada más clara, un seguimiento más oportuno.</h1><p>Organiza tu jornada comercial y enfócate en los leads con mayor prioridad.</p></div></section><section className="login-card"><span className="eyebrow">ACCESO INTERNO</span><h2>Iniciar sesión</h2><p>Usa las credenciales asignadas por tu organización.</p><form onSubmit={submit}><label>Correo electrónico<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" /></label><label>Contraseña<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="current-password" /></label>{error && <div className="form-error" role="alert"><CircleAlert size={16} />{error}</div>}<button className="primary-button" disabled={loading}>{loading ? "Ingresando…" : "Ingresar"}</button></form><small className="login-note">El acceso es administrado internamente.</small></section></main>;
 }
 
-export default App;
+function Shell({ profile, children }: { profile: Profile; children: ReactNode }) {
+  const location = useLocation(); const navigate = useNavigate(); const [open, setOpen] = useState(false); const manager = profile.role === "manager";
+  const items: [string, string, LucideIcon][] = manager ? [["/leads", "Leads", LayoutDashboard], ["/dashboard", "Dashboard", BarChart3], ["/equipo", "Equipo", UsersRound], ["/metodologia", "Metodología y calidad", CheckCircle2]] : [["/leads", "Leads", LayoutDashboard]];
+  const logout = async () => { await supabase?.auth.signOut(); navigate("/login"); };
+  const title = location.pathname.startsWith("/dashboard") ? "Dashboard comercial" : location.pathname.startsWith("/equipo") ? "Equipo comercial" : location.pathname.startsWith("/metodologia") ? "Metodología y calidad" : location.pathname.startsWith("/leads/") ? "Detalle del lead" : "Leads del día";
+  return <div className="app-shell"><aside className={"sidebar " + (open ? "open" : "")}><div><BrandMark /><nav className="main-nav" aria-label="Navegación principal">{items.map(([href, text, Icon]) => <Link key={href} to={href} className={location.pathname.startsWith(href) ? "active" : ""} onClick={() => setOpen(false)}><Icon size={18} />{text}</Link>)}</nav></div><div className="sidebar-bottom"><div className="profile-mini"><span className="avatar"><UserRound size={16} /></span><span><strong>{manager ? "Responsable comercial" : "Asesor comercial"}</strong><small>{profile.empresa_id}</small></span></div><button className="logout-button" onClick={logout}><LogOut size={17} />Cerrar sesión</button></div></aside>{open && <button className="sidebar-overlay" aria-label="Cerrar menú" onClick={() => setOpen(false)} />}<main className="main-content"><header className="topbar"><button className="menu-button" aria-label="Abrir menú" onClick={() => setOpen(true)}><Menu size={21} /></button><div><span className="eyebrow">MOTOS Y SERVICIOS DE COLOMBIA</span><h1>{title}</h1></div><div className="topbar-profile"><span className="avatar"><UserRound size={16} /></span>{manager ? "Manager" : "Asesor"}</div></header>{children}</main></div>;
+}
+function StatCard({ label: text, value, icon: Icon, tone = "" }: { label: string; value: string | number; icon: LucideIcon; tone?: string }) { return <article className={"stat-card " + tone}><span className="stat-icon"><Icon size={18} /></span><div><span>{text}</span><strong>{value}</strong></div></article>; }
+function DatePicker({ value, onChange }: { value: string; onChange: (value: string) => void }) { const [dates, setDates] = useState<string[]>([]); useEffect(() => { rpc<{ assignment_date: string }[]>("get_available_assignment_dates").then((data) => { const values = (data || []).map((x) => x.assignment_date); setDates(values); if (!value && values[0]) onChange(values[0]); }).catch(() => undefined); }, [onChange, value]); return <label className="date-picker"><CalendarDays size={17} />{dates.length ? <select value={value} onChange={(e) => onChange(e.target.value)} aria-label="Fecha operacional">{dates.map((item) => <option key={item}>{item}</option>)}</select> : <span>{value || "Sin jornadas"}</span>}</label>; }
+
+function LeadsPage({ profile }: { profile: Profile }) {
+  const [date, setDate] = useState(""); const [rows, setRows] = useState<Lead[]>([]); const [filters, setFilters] = useState({ search: "", temperature: "", status: "", availability: "" }); const [page, setPage] = useState(1); const [loading, setLoading] = useState(true); const [error, setError] = useState(""); const size = 25;
+  useEffect(() => { if (!date) return; setLoading(true); setError(""); rpc<Lead[]>("get_daily_leads", { p_assignment_date: date, p_temperature: filters.temperature || null, p_assignment_status: filters.status || null, p_canal: null, p_availability: filters.availability === "" ? null : filters.availability === "true", p_advisor_id: profile.advisor_id, p_punto_venta_id: null, p_search: filters.search || null }).then((data) => { setRows(data || []); setPage(1); }).catch(() => setError("No fue posible cargar la jornada.")).finally(() => setLoading(false)); }, [date, filters, profile.advisor_id]);
+  const visible = rows.slice((page - 1) * size, page * size); const pages = Math.max(1, Math.ceil(rows.length / size)); const assigned = rows.filter((x) => x.assignment_status === "ASSIGNED").length; const hot = rows.filter((x) => x.temperature === "HOT").length;
+  return <section className="page-section"><div className="section-heading"><div><span className="eyebrow">PRIORIDAD COMERCIAL Y ASIGNACIÓN</span><h2>Leads del día</h2><p>Enfoca tu jornada en los leads que requieren atención primero.</p></div><DatePicker value={date} onChange={setDate} /></div><div className="stats-grid"><StatCard label="Asignados" value={assigned} icon={CheckCircle2} tone="success" /><StatCard label="Por gestionar" value={rows.length - assigned} icon={Clock3} /><StatCard label="HOT" value={hot} icon={Gauge} tone="hot" /><StatCard label="Leads visibles" value={rows.length} icon={UsersRound} /></div><div className="filters"><label className="search-field"><Search size={17} /><input placeholder="Buscar nombre, lead, teléfono o modelo" value={filters.search} onChange={(e) => setFilters({ ...filters, search: e.target.value })} /></label><select aria-label="Temperatura" value={filters.temperature} onChange={(e) => setFilters({ ...filters, temperature: e.target.value })}><option value="">Temperatura</option><option>HOT</option><option>WARM</option><option>COLD</option></select><select aria-label="Estado" value={filters.status} onChange={(e) => setFilters({ ...filters, status: e.target.value })}><option value="">Estado</option><option value="ASSIGNED">Asignado</option><option value="UNASSIGNED_CAPACITY">En backlog</option></select><select aria-label="Disponibilidad" value={filters.availability} onChange={(e) => setFilters({ ...filters, availability: e.target.value })}><option value="">Disponibilidad</option><option value="true">Disponible</option><option value="false">No disponible</option></select><button className="text-button" onClick={() => setFilters({ search: "", temperature: "", status: "", availability: "" })}>Limpiar</button></div>{loading ? <div className="loading-state">Cargando jornada…</div> : error ? <div className="error-state" role="alert"><CircleAlert size={20} />{error}</div> : rows.length === 0 ? <div className="empty-state"><Search size={28} /><h3>No hay leads para los filtros seleccionados.</h3></div> : <><div className="table-wrap"><table><thead><tr><th>Rank</th><th>Prioridad</th><th>Cliente</th><th>Moto / modelo</th><th>Canal</th><th>Punto de venta</th><th>Antigüedad</th><th>Disponibilidad</th><th>Asesor</th><th>Estado</th></tr></thead><tbody>{visible.map((row) => <tr key={row.raw_row_id}><td className="rank">#{row.global_priority_rank}</td><td><PriorityScore value={row.priority_score} /><TemperatureBadge value={row.temperature} /></td><td><Link className="lead-link" to={"/leads/" + row.raw_row_id}><strong>{row.nombre_cliente || "Cliente sin nombre"}</strong><small>{row.lead_id}</small></Link></td><td>{row.modelo || "No informado"}</td><td>{label(row.canal)}</td><td><span className="inline-icon"><MapPin size={14} />{row.punto_venta_id || "No informado"}</span></td><td>{ageText(row.lead_age_hours)}</td><td><AvailabilityBadge value={row.is_available_at_store} /></td><td>{row.advisor_id || "—"}</td><td><AssignmentBadge value={row.assignment_status} /></td></tr>)}</tbody></table></div><div className="pagination"><span>{(page - 1) * size + 1}–{Math.min(page * size, rows.length)} de {rows.length}</span><button disabled={page === 1} aria-label="Página anterior" onClick={() => setPage(page - 1)}><ChevronLeft size={17} /></button><button disabled={page === pages} aria-label="Página siguiente" onClick={() => setPage(page + 1)}><ChevronRight size={17} /></button></div></>}</section>;
+}
+
+function AdvisorManagement({ row, onChange }: { row: Lead; onChange: (responded: boolean) => void }) {
+  const responded = Boolean(row.responded_at);
+  return <button className={"management-button " + (responded ? "responded" : "pending")} onClick={() => onChange(!responded)} aria-label={responded ? "Marcar como pendiente" : "Marcar como respondido"}>{responded ? "✓ Respondido" : "Pendiente"}</button>;
+}
+
+function AdvisorLeadsPage({ profile }: { profile: Profile }) {
+  const [date, setDate] = useState(""); const [rows, setRows] = useState<Lead[]>([]); const [filters, setFilters] = useState({ search: "", temperature: "", status: "", availability: "", management: "" }); const [page, setPage] = useState(1); const [loading, setLoading] = useState(true); const [error, setError] = useState(""); const size = 25;
+  useEffect(() => { rpc<{ assignment_date: string }[]>("get_available_assignment_dates").then((data) => setDate(data?.[0]?.assignment_date || "")); }, []);
+  useEffect(() => { if (!date) return; setLoading(true); setError(""); rpc<Lead[]>("get_daily_leads", { p_assignment_date: date, p_temperature: filters.temperature || null, p_assignment_status: filters.status || null, p_canal: null, p_availability: filters.availability === "" ? null : filters.availability === "true", p_advisor_id: profile.advisor_id, p_punto_venta_id: null, p_search: filters.search || null, p_management_status: filters.management || null }).then((data) => { setRows(data || []); setPage(1); }).catch(() => setError("No fue posible cargar la jornada.")).finally(() => setLoading(false)); }, [date, filters, profile.advisor_id]);
+  const toggle = async (row: Lead, responded: boolean) => { const previous = rows; setRows(rows.map((item) => item.raw_row_id === row.raw_row_id ? { ...item, responded_at: responded ? new Date().toISOString() : null } : item)); try { await rpc("set_lead_responded", { p_assignment_date: date, p_raw_row_id: row.raw_row_id, p_responded: responded }); } catch { setRows(previous); setError("No fue posible actualizar la gestión del lead."); } };
+  const visible = rows.slice((page - 1) * size, page * size); const pages = Math.max(1, Math.ceil(rows.length / size)); const assigned = rows.filter((x) => x.assignment_status === "ASSIGNED").length; const hot = rows.filter((x) => x.temperature === "HOT").length;
+  return <section className="page-section"><div className="section-heading"><div><span className="eyebrow">PRIORIDAD COMERCIAL Y ASIGNACIÓN</span><h2>Leads del día</h2><p>Enfoca tu jornada en los leads que requieren atención primero.</p></div><DatePicker value={date} onChange={setDate} /></div><div className="stats-grid"><StatCard label="Asignados" value={assigned} icon={CheckCircle2} tone="success" /><StatCard label="Por gestionar" value={rows.length - assigned} icon={Clock3} /><StatCard label="HOT" value={hot} icon={Gauge} tone="hot" /><StatCard label="Leads visibles" value={rows.length} icon={UsersRound} /></div><div className="filters"><label className="search-field"><Search size={17} /><input placeholder="Buscar nombre, lead, teléfono o modelo" value={filters.search} onChange={(e) => setFilters({ ...filters, search: e.target.value })} /></label><select aria-label="Temperatura" value={filters.temperature} onChange={(e) => setFilters({ ...filters, temperature: e.target.value })}><option value="">Temperatura</option><option>HOT</option><option>WARM</option><option>COLD</option></select><select aria-label="Estado" value={filters.status} onChange={(e) => setFilters({ ...filters, status: e.target.value })}><option value="">Estado</option><option value="ASSIGNED">Asignado</option><option value="UNASSIGNED_CAPACITY">En backlog</option></select><select aria-label="Gestión" value={filters.management} onChange={(e) => setFilters({ ...filters, management: e.target.value })}><option value="">Gestión</option><option value="PENDING">Pendientes</option><option value="RESPONDED">Respondidos</option></select><select aria-label="Disponibilidad" value={filters.availability} onChange={(e) => setFilters({ ...filters, availability: e.target.value })}><option value="">Disponibilidad</option><option value="true">Disponible</option><option value="false">No disponible</option></select><button className="text-button" onClick={() => setFilters({ search: "", temperature: "", status: "", availability: "", management: "" })}>Limpiar</button></div>{loading ? <div className="loading-state">Cargando jornada…</div> : error ? <div className="error-state" role="alert"><CircleAlert size={20} />{error}</div> : rows.length === 0 ? <div className="empty-state"><Search size={28} /><h3>No hay leads para los filtros seleccionados.</h3></div> : <><div className="table-wrap"><table><thead><tr><th>Rank</th><th>Prioridad</th><th>Cliente</th><th>Moto / modelo</th><th>Canal</th><th>Punto de venta</th><th>Antigüedad</th><th>Disponibilidad</th><th>Gestión</th></tr></thead><tbody>{visible.map((row) => <tr key={row.raw_row_id}><td className="rank">#{row.global_priority_rank}</td><td><PriorityScore value={row.priority_score} /><TemperatureBadge value={row.temperature} /></td><td><Link className="lead-link" to={"/leads/" + row.raw_row_id}><strong>{row.nombre_cliente || "Cliente sin nombre"}</strong><small>{row.lead_id}</small></Link></td><td>{row.modelo || "No informado"}</td><td>{label(row.canal)}</td><td><span className="inline-icon"><MapPin size={14} />{row.punto_venta_id || "No informado"}</span></td><td>{ageText(row.lead_age_hours)}</td><td><AvailabilityBadge value={row.is_available_at_store} /></td><td><AdvisorManagement row={row} onChange={(responded) => void toggle(row, responded)} /></td></tr>)}</tbody></table></div><div className="pagination"><span>{(page - 1) * size + 1}–{Math.min(page * size, rows.length)} de {rows.length}</span><button disabled={page === 1} aria-label="Página anterior" onClick={() => setPage(page - 1)}><ChevronLeft size={17} /></button><button disabled={page === pages} aria-label="Página siguiente" onClick={() => setPage(page + 1)}><ChevronRight size={17} /></button></div></>}</section>;
+}
+
+function ManagerLeadsPage() {
+  const [date, setDate] = useState("");
+  const [rows, setRows] = useState<Lead[]>([]);
+  const [store, setStore] = useState("");
+  const [advisor, setAdvisor] = useState("");
+  const [canal, setCanal] = useState("");
+  const [options, setOptions] = useState<{ punto_venta_id: string; advisor_id: string; advisor_name: string | null; canal: string | null }[]>([]);
+  useEffect(() => { rpc<{ assignment_date: string }[]>("get_available_assignment_dates").then((data) => setDate(data?.[0]?.assignment_date || "")); }, []);
+  useEffect(() => { if (!date) return; rpc<typeof options>("get_manager_filter_options", { p_assignment_date: date }).then((data) => setOptions(data || [])); }, [date]);
+  useEffect(() => { if (!date) return; rpc<Lead[]>("get_daily_leads", { p_assignment_date: date, p_advisor_id: advisor || null, p_punto_venta_id: store || null, p_canal: canal || null }).then((data) => setRows(data || [])); }, [date, store, advisor, canal]);
+  const stores = [...new Set(options.map((x) => x.punto_venta_id))];
+  const advisors = [...new Map(options.filter((x) => x.advisor_id).map((x) => [x.advisor_id, x])).values()];
+  const channels = [...new Set(options.map((x) => x.canal).filter(Boolean))];
+  return <section className="page-section"><div className="section-heading"><div><span className="eyebrow">PRIORIDAD COMERCIAL Y ASIGNACIÓN</span><h2>Leads del día</h2><p>Ranking de empresa y filtros operativos para la jornada.</p></div><DatePicker value={date} onChange={setDate} /></div><div className="filters"><select aria-label="Punto de venta" value={store} onChange={(e) => setStore(e.target.value)}><option value="">Punto de venta</option>{stores.map((x) => <option key={x}>{x}</option>)}</select><select aria-label="Asesor" value={advisor} onChange={(e) => setAdvisor(e.target.value)}><option value="">Asesor</option>{advisors.map((x) => <option key={x.advisor_id} value={x.advisor_id}>{x.advisor_name || x.advisor_id}</option>)}</select><select aria-label="Canal" value={canal} onChange={(e) => setCanal(e.target.value)}><option value="">Canal</option>{channels.map((x) => <option key={x}>{x}</option>)}</select></div><div className="table-wrap"><table><thead><tr><th>Rank empresa</th><th>Prioridad</th><th>Cliente</th><th>Canal</th><th>Punto de venta</th><th>Asesor</th><th>Estado</th></tr></thead><tbody>{rows.map((row) => <tr key={row.raw_row_id}><td className="rank">#{row.company_priority_rank}</td><td><PriorityScore value={row.priority_score} /><TemperatureBadge value={row.temperature} /></td><td><Link className="lead-link" to={'/leads/' + row.raw_row_id}><strong>{row.nombre_cliente || "Cliente sin nombre"}</strong><small>{row.lead_id}</small></Link></td><td>{label(row.canal)}</td><td>{row.punto_venta_id || "No informado"}</td><td>{row.advisor_id || "—"}</td><td><AssignmentBadge value={row.assignment_status} /></td></tr>)}</tbody></table></div></section>;
+}
+function ManagerLeadsPageOps() {
+  const [date, setDate] = useState(""); const [rows, setRows] = useState<Lead[]>([]); const [management, setManagement] = useState("");
+  useEffect(() => { rpc<{ assignment_date: string }[]>("get_available_assignment_dates").then((data) => setDate(data?.[0]?.assignment_date || "")); }, []);
+  useEffect(() => { if (!date) return; rpc<Lead[]>("get_daily_leads", { p_assignment_date: date, p_temperature: null, p_assignment_status: null, p_canal: null, p_availability: null, p_advisor_id: null, p_punto_venta_id: null, p_search: null, p_management_status: management || null }).then((data) => setRows(data || [])); }, [date, management]);
+  return <section className="page-section"><div className="section-heading"><div><span className="eyebrow">PRIORIDAD COMERCIAL Y ASIGNACIÓN</span><h2>Leads del día</h2><p>Ranking de empresa y estado de gestión.</p></div><DatePicker value={date} onChange={setDate} /></div><div className="filters"><select aria-label="Gestión" value={management} onChange={(e) => setManagement(e.target.value)}><option value="">Gestión</option><option value="PENDING">Pendientes</option><option value="RESPONDED">Respondidos</option></select></div><div className="table-wrap"><table><thead><tr><th>Rank empresa</th><th>Prioridad</th><th>Cliente</th><th>Canal</th><th>Punto de venta</th><th>Asesor</th><th>Gestión</th></tr></thead><tbody>{rows.map((row) => <tr key={row.raw_row_id}><td className="rank">#{row.company_priority_rank}</td><td><PriorityScore value={row.priority_score} /><TemperatureBadge value={row.temperature} /></td><td><Link className="lead-link" to={'/leads/' + row.raw_row_id}><strong>{row.nombre_cliente || "Cliente sin nombre"}</strong><small>{row.lead_id}</small></Link></td><td>{label(row.canal)}</td><td>{row.punto_venta_id || "No informado"}</td><td>{row.advisor_id || "—"}</td><td>{row.responded_at ? "✓ Respondido" : "Pendiente"}</td></tr>)}</tbody></table></div></section>;
+}
+
+function ManagerDashboardOps() {
+  const [date, setDate] = useState(""); const [summary, setSummary] = useState<Summary | null>(null);
+  useEffect(() => { rpc<{ assignment_date: string }[]>("get_available_assignment_dates").then((data) => setDate(data?.[0]?.assignment_date || "")); }, []);
+  useEffect(() => { if (date) rpc<Summary[]>("get_manager_summary", { p_assignment_date: date }).then((data) => setSummary(data?.[0] || null)); }, [date]);
+  if (!summary) return <div className="loading-state">Cargando indicadores…</div>;
+  return <section className="page-section"><div className="section-heading"><div><span className="eyebrow">CONTROL DE LA JORNADA</span><h2>Dashboard comercial</h2><p>Demanda, capacidad y gestión de asesores.</p></div><DatePicker value={date} onChange={setDate} /></div><div className="stats-grid"><StatCard label="Leads" value={summary.total_leads} icon={UsersRound} /><StatCard label="Asignados" value={summary.assigned} icon={CheckCircle2} tone="success" /><StatCard label="Backlog" value={summary.backlog} icon={Clock3} tone="warning" /><StatCard label="HOT en backlog" value={summary.hot_backlog} icon={Gauge} tone="hot" /><StatCard label="Capacidad utilizada" value={summary.capacity_used + "/" + summary.capacity_total} icon={BarChart3} /></div><article className="panel-card"><h3>Gestión de asesores</h3><div className="quality-metrics"><Info name="Respondidos" value={summary.responded} /><Info name="Pendientes de respuesta" value={summary.pending_response} /><Info name="Avance" value={(summary.managed_pct || 0) + "%"} /></div></article></section>;
+}
+
+function TeamManagerOps() {
+  const [date, setDate] = useState(""); const [rows, setRows] = useState<Capacity[]>([]); const [store, setStore] = useState("");
+  useEffect(() => { rpc<{ assignment_date: string }[]>("get_available_assignment_dates").then((data) => setDate(data?.[0]?.assignment_date || "")); }, []);
+  useEffect(() => { if (date) rpc<Capacity[]>("get_advisor_capacity", { p_assignment_date: date }).then((data) => setRows(data || [])); }, [date]);
+  const stores = [...new Set(rows.map((row) => row.punto_venta_id))]; const visible = rows.filter((row) => !store || row.punto_venta_id === store);
+  return <section className="page-section"><div className="section-heading"><div><span className="eyebrow">CAPACIDAD Y GESTIÓN</span><h2>Equipo comercial</h2><p>Distribución por asesor y punto de venta.</p></div></div><div className="filters"><select aria-label="Punto de venta" value={store} onChange={(e) => setStore(e.target.value)}><option value="">Todos los puntos</option>{stores.map((x) => <option key={x}>{x}</option>)}</select></div><div className="table-wrap"><table><thead><tr><th>Asesor</th><th>ID</th><th>Punto de venta</th><th>Asignados</th><th>Respondidos</th><th>Pendientes</th><th>Capacidad</th><th>Carga</th></tr></thead><tbody>{visible.map((row) => <tr key={row.asesor_id}><td><strong>{row.nombre || "Nombre no informado"}</strong></td><td>{row.asesor_id}</td><td>{row.punto_venta_id}</td><td>{row.asignados}</td><td>{row.responded}</td><td>{row.pending_response}</td><td>{row.capacidad}</td><td>{Math.round((row.load_ratio || 0) * 100)}%</td></tr>)}</tbody></table></div></section>;
+}
+
+function Info({ name, value }: { name: string; value: ReactNode }) { return <div className="info-row"><span>{name}</span><strong>{value || "No informado"}</strong></div>; }
+function DetailCard({ title, icon: Icon, children }: { title: string; icon: LucideIcon; children: ReactNode }) { return <article className="detail-card"><h3><Icon size={18} />{title}</h3>{children}</article>; }
+function Breakdown({ name, value, max }: { name: string; value: number; max: number }) { return <div className="breakdown"><div><span>{name}</span><strong>{value} / {max}</strong></div><div className="breakdown-track"><i style={{ width: value / max * 100 + "%" }} /></div></div>; }
+function ConversationHistory({ messages, loading, error }: { messages: ConversationMessage[]; loading: boolean; error: string }) { if (loading) return <div className="conversation-panel"><h3>Conversación</h3><div className="loading-state">Cargando historial…</div></div>; if (error) return <div className="conversation-panel"><h3>Conversación</h3><div className="error-state" role="alert">{error}</div></div>; if (!messages.length) return <div className="conversation-panel"><h3>Conversación</h3><p className="empty-conversation">Sin conversación registrada</p></div>; const first = messages[0]; return <div className="conversation-panel"><h3>Conversación</h3><p className="conversation-subtitle">{label(first.conversation_channel)} · {dateText(first.conversation_started_at)}</p><div className="conversation-scroll">{messages.map((message) => <article className={"message-item " + (message.speaker?.toLowerCase() === "cliente" ? "client" : "advisor")} key={message.conversation_id + "-" + message.message_index}><div className="message-meta"><strong>{message.speaker}</strong><span>{dateTimeText(message.conversation_started_at, message.message_time)}</span></div><p>{message.message_text}</p></article>)}</div></div>; }
+function ConversationHistoryGrouped({ messages, loading, error }: { messages: ConversationMessage[]; loading: boolean; error: string }) {
+  if (loading) return <div className="conversation-panel"><h3>Conversación</h3><div className="loading-state">Cargando historial…</div></div>;
+  if (error) return <div className="conversation-panel"><h3>Conversación</h3><div className="error-state" role="alert">{error}</div></div>;
+  const groups = messages.reduce<Record<string, ConversationMessage[]>>((acc, message) => { (acc[message.conversation_id] ||= []).push(message); return acc; }, {});
+  if (!Object.keys(groups).length) return <div className="conversation-panel"><h3>Conversación</h3><p className="empty-conversation">Sin conversación registrada</p></div>;
+  return <div className="conversation-panel"><h3>Conversación</h3><p className="conversation-subtitle">Historial con el cliente</p><div className="conversation-scroll">{Object.entries(groups).map(([id, group]) => <section className="conversation-group" key={id}><header><strong>{label(group[0].conversation_channel)} · {dateText(group[0].conversation_started_at)}</strong><small>{id}</small></header>{group.map((message) => <article className={"message-item " + (message.speaker?.toLowerCase() === "cliente" ? "client" : "advisor")} key={id + "-" + message.message_index}><div className="message-meta"><strong>{label(message.speaker)}</strong><span>{dateTimeText(message.conversation_started_at, message.message_time)}</span></div><p>{message.message_text}</p></article>)}</section>)}</div></div>;
+}
+// The legacy call site is retained; this renderer preserves the same source rows while grouping them.
+// @ts-expect-error Function declarations are mutable at runtime in the browser bundle.
+ConversationHistory = ConversationHistoryGrouped;
+function DetailManagement({ row, isAdvisor, onChange }: { row: Detail; isAdvisor: boolean; onChange: (responded: boolean) => void }) {
+  return <DetailCard title="Gestión" icon={CheckCircle2}><Info name="Estado" value={row.responded_at ? "Respondido" : "Pendiente"} />{row.responded_at && <Info name="Respondido el" value={dateTimeText(row.responded_at.slice(0, 10), new Date(row.responded_at).toLocaleTimeString("es-CO", { hour: "numeric", minute: "2-digit" }))} />}{isAdvisor && <AdvisorManagement row={row} onChange={onChange} />}</DetailCard>;
+}
+function LeadDetail({ profile }: { profile: Profile }) {
+  const { rawRowId } = useParams(); const [date, setDate] = useState(""); const [row, setRow] = useState<Detail | null>(null); const [messages, setMessages] = useState<ConversationMessage[]>([]); const [historyLoading, setHistoryLoading] = useState(false); const [error, setError] = useState(""); const [historyError, setHistoryError] = useState("");
+  useEffect(() => { rpc<{ assignment_date: string }[]>("get_available_assignment_dates").then((data) => setDate(data?.[0]?.assignment_date || "")).catch(() => setError("No fue posible cargar la jornada.")); }, []);
+  useEffect(() => { if (rawRowId && date) rpc<Detail[]>("get_lead_detail", { p_assignment_date: date, p_raw_row_id: rawRowId }).then((data) => setRow(data?.[0] || null)).catch(() => setError("No fue posible cargar el detalle.")); }, [rawRowId, date]);
+  useEffect(() => { if (!rawRowId || !date) return; setHistoryLoading(true); setHistoryError(""); rpc<ConversationMessage[]>("get_lead_conversation_history", { p_assignment_date: date, p_raw_row_id: rawRowId }).then((data) => setMessages(data || [])).catch(() => setHistoryError("No fue posible cargar la conversación.")).finally(() => setHistoryLoading(false)); }, [rawRowId, date]);
+  if (error) return <div className="error-state">{error}</div>; if (!row) return <div className="loading-state">Cargando ficha comercial…</div>;
+  const changeResponded = async (responded: boolean) => { try { await rpc("set_lead_responded", { p_assignment_date: date, p_raw_row_id: row.raw_row_id, p_responded: responded }); setRow({ ...row, responded_at: responded ? new Date().toISOString() : null }); } catch { setError("No fue posible actualizar la gestión del lead."); } };
+  return <section className="page-section"><Link to="/leads" className="back-link"><ChevronLeft size={17} />Volver a leads</Link><div className="detail-hero"><div><span className="eyebrow">FICHA COMERCIAL · {row.lead_id}</span><h2>{row.nombre_cliente || "Cliente sin nombre"}</h2><p>{row.modelo_canonico || row.modelo_solicitado || "Modelo no informado"} · {row.punto_venta_id || "Punto no informado"}</p></div><div className="detail-score"><PriorityScore value={row.priority_score} /><TemperatureBadge value={row.temperature} /><AssignmentBadge value={row.assignment_status} /></div></div><div className="detail-content-layout"><div className="detail-grid"><DetailCard title="Contacto" icon={PhoneCall}><Info name="Nombre" value={row.nombre_cliente} /><Info name="Teléfono" value={row.telefono} /><Info name="Email" value={row.email} /><Info name="Canal del lead" value={label(row.canal)} /><Info name="Fecha de registro" value={dateText(row.fecha_registro)} /></DetailCard><DetailCard title="Interés" icon={Store}><Info name="Modelo solicitado" value={row.modelo_solicitado} /><Info name="Modelo canónico" value={row.modelo_canonico} /><Info name="Precio" value={money(row.precio_lista)} /><Info name="Disponibilidad" value={<AvailabilityBadge value={row.is_available_at_store} />} /><Info name="Punto de venta" value={row.punto_venta_id} /></DetailCard><DetailCard title="Señales comerciales" icon={MessageSquare}><Info name="Intención" value={label(row.intencion)} /><Info name="Presupuesto" value={money(row.presupuesto)} /><Info name="Cuota inicial" value={money(row.cuota_inicial)} /><Info name="Forma de pago" value={label(row.forma_pago)} /><Info name="Objeción" value={label(row.objecion_principal)} /><Info name="Pidió cita" value={row.pidio_cita == null ? "No informado" : row.pidio_cita ? "Sí" : "No"} /><Info name="Pidió cotización" value={row.pidio_cotizacion == null ? "No informado" : row.pidio_cotizacion ? "Sí" : "No"} /></DetailCard><DetailCard title="Motivos de prioridad" icon={Gauge}><div className="reason-list">{row.priority_reasons.length ? row.priority_reasons.map((item) => <span key={item}><CheckCircle2 size={15} />{item}</span>) : <span>No hay señales adicionales.</span>}</div></DetailCard><DetailCard title="Desglose de prioridad" icon={BarChart3}><Breakdown name="Señales comerciales" value={row.conversation_component} max={45} /><Breakdown name="Antigüedad / SLA" value={row.sla_component} max={30} /><Breakdown name="Disponibilidad" value={row.availability_component} max={20} /><Breakdown name="Propensión histórica" value={row.propensity_component} max={5} /><p className="helper-text">La propensión histórica es una señal auxiliar.</p></DetailCard><DetailCard title="Asignación" icon={UsersRound}><Info name="Asesor" value={row.advisor_id || "En backlog"} /><Info name="Estado" value={<AssignmentBadge value={row.assignment_status} />} /><Info name="Fecha de jornada" value={dateText(row.assignment_date)} /><Info name="Antigüedad" value={ageText(row.lead_age_hours)} /></DetailCard><DetailManagement row={row} isAdvisor={profile.role === "advisor"} onChange={changeResponded} /></div><ConversationHistory messages={messages} loading={historyLoading} error={historyError} /></div></section>;
+}
+
+function Dashboard() {
+  const [date, setDate] = useState(""); const [summary, setSummary] = useState<Summary | null>(null); const [error, setError] = useState("");
+  useEffect(() => { rpc<{ assignment_date: string }[]>("get_available_assignment_dates").then((data) => setDate(data?.[0]?.assignment_date || "")).catch(() => setError("No fue posible cargar la jornada.")); }, []);
+  useEffect(() => { if (date) rpc<Summary[]>("get_manager_summary", { p_assignment_date: date }).then((data) => setSummary(data?.[0] || null)).catch(() => setError("No fue posible cargar el dashboard.")); }, [date]);
+  if (error) return <div className="error-state">{error}</div>; if (!summary) return <div className="loading-state">Cargando indicadores…</div>;
+  return <section className="page-section"><div className="section-heading"><div><span className="eyebrow">CONTROL DE LA JORNADA</span><h2>Dashboard comercial</h2><p>Lectura operativa de la lista diaria.</p></div><DatePicker value={date} onChange={setDate} /></div><div className="stats-grid"><StatCard label="Leads de la jornada" value={summary.total_leads} icon={UsersRound} /><StatCard label="Asignados" value={summary.assigned} icon={CheckCircle2} tone="success" /><StatCard label="Backlog" value={summary.backlog} icon={Clock3} tone="warning" /><StatCard label="Capacidad utilizada" value={summary.capacity_used + "/" + summary.capacity_total} icon={Gauge} /></div><div className="dashboard-grid"><article className="panel-card"><h3>Temperatura</h3><Distribution label="HOT" value={summary.hot} total={summary.total_leads} tone="hot" /><Distribution label="WARM" value={summary.warm} total={summary.total_leads} tone="warm" /><Distribution label="COLD" value={summary.cold} total={summary.total_leads} tone="cold" /></article><article className="panel-card"><h3>Asignación y capacidad</h3><div className="capacity-visual"><strong>{Math.round(summary.capacity_used / summary.capacity_total * 100)}%</strong><div className="bar"><i className="orange-fill" style={{ width: summary.capacity_used / summary.capacity_total * 100 + "%" }} /></div><p>{summary.capacity_used} asignados de {summary.capacity_total} cupos activos.</p></div></article></div></section>;
+}
+function Distribution({ label: text, value, total, tone }: { label: string; value: number; total: number; tone: string }) { return <div className="distribution-item"><span className="distribution-label"><TemperatureBadge value={text} />{value}</span><div className="bar"><i className={tone + "-fill"} style={{ width: value / total * 100 + "%" }} /></div></div>; }
+
+function Team() {
+  const [date, setDate] = useState(""); const [rows, setRows] = useState<Capacity[]>([]); const [error, setError] = useState("");
+  useEffect(() => { rpc<{ assignment_date: string }[]>("get_available_assignment_dates").then((data) => setDate(data?.[0]?.assignment_date || "")).catch(() => setError("No fue posible cargar la jornada.")); }, []);
+  useEffect(() => { if (date) rpc<Capacity[]>("get_advisor_capacity", { p_assignment_date: date }).then((data) => setRows(data || [])).catch(() => setError("No fue posible cargar la capacidad del equipo.")); }, [date]);
+  if (error) return <div className="error-state">{error}</div>;
+  return <section className="page-section"><div className="section-heading"><div><span className="eyebrow">CAPACIDAD Y CARGA</span><h2>Equipo comercial</h2><p>Distribución de la jornada por asesor y punto de venta.</p></div></div><div className="table-wrap"><table><thead><tr><th>Asesor</th><th>Punto de venta</th><th>Asignados</th><th>Capacidad</th><th>Carga</th></tr></thead><tbody>{rows.map((row) => <tr key={row.asesor_id}><td><strong>{row.asesor_id}</strong></td><td>{row.punto_venta_id}</td><td>{row.asignados}</td><td>{row.capacidad}</td><td><div className="load-cell"><div className="bar"><i style={{ width: Math.min((row.load_ratio || 0) * 100, 100) + "%" }} /></div><span>{Math.round((row.load_ratio || 0) * 100)}%</span></div></td></tr>)}</tbody></table></div></section>;
+}
+function Methodology() { const weights = [["Señales comerciales", 45, "orange"], ["Antigüedad / SLA", 30, "graphite"], ["Disponibilidad", 20, "blue"], ["Propensión histórica", 5, "gray"]] as const; return <section className="page-section"><div className="section-heading"><div><span className="eyebrow">TRANSPARENCIA OPERATIVA</span><h2>Metodología y calidad</h2><p>Cómo se construye la prioridad diaria.</p></div></div><div className="method-grid"><article className="panel-card"><h3>Cómo se calcula prioridad</h3>{weights.map(([text, max, tone]) => <div className="method-row" key={text}><div><strong>{text}</strong><span>hasta {max} puntos</span></div><div className={"method-bar " + tone}><i style={{ width: max + "%" }} /></div></div>)}<p className="helper-text">El score suma componentes deterministas y queda entre 0 y 100.</p></article><article className="panel-card"><h3>Modelo histórico</h3><div className="quality-stat"><strong>Logistic Regression</strong><span>Validación temporal</span></div><div className="quality-metrics"><Info name="ROC-AUC" value="0.5235" /><Info name="PR-AUC" value="0.1003" /><Info name="Base rate" value="0.0905" /><Info name="Lift top 20%" value="1.2438" /><Info name="FIFO top 20%" value="0.9674" /></div><p className="method-note">La propensión histórica es una señal auxiliar y aporta como máximo 5 puntos. Las señales actuales tienen mayor peso.</p></article></div></section>; }
+
+function ManagerDashboard() {
+  const [date, setDate] = useState(""); const [summary, setSummary] = useState<Summary | null>(null); const [stores, setStores] = useState<StoreSummary[]>([]);
+  useEffect(() => { rpc<{ assignment_date: string }[]>("get_available_assignment_dates").then((data) => setDate(data?.[0]?.assignment_date || "")); }, []);
+  useEffect(() => { if (!date) return; rpc<Summary[]>("get_manager_summary", { p_assignment_date: date }).then((data) => setSummary(data?.[0] || null)); rpc<StoreSummary[]>("get_manager_store_summary", { p_assignment_date: date }).then((data) => setStores(data || [])); }, [date]);
+  if (!summary) return <div className="loading-state">Cargando indicadores…</div>;
+  return <section className="page-section"><div className="section-heading"><div><span className="eyebrow">CONTROL DE LA JORNADA</span><h2>Dashboard comercial</h2><p>Demanda, capacidad y backlog por punto de venta.</p></div><DatePicker value={date} onChange={setDate} /></div><div className="stats-grid"><StatCard label="Leads" value={summary.total_leads} icon={UsersRound} /><StatCard label="Asignados" value={summary.assigned} icon={CheckCircle2} tone="success" /><StatCard label="Backlog" value={summary.backlog} icon={Clock3} tone="warning" /><StatCard label="HOT en backlog" value={summary.hot_backlog} icon={Gauge} tone="hot" /><StatCard label="Capacidad utilizada" value={summary.capacity_used + "/" + summary.capacity_total} icon={BarChart3} /></div><article className="panel-card store-demand"><h3>Demanda vs capacidad por punto de venta</h3><div className="table-wrap"><table><thead><tr><th>Punto de venta</th><th>Leads</th><th>Asignados</th><th>Backlog</th><th>HOT</th><th>Capacidad</th></tr></thead><tbody>{stores.map((row) => <tr key={row.punto_venta_id}><td>{row.punto_venta_id}</td><td>{row.leads}</td><td>{row.asignados}</td><td>{row.backlog}</td><td>{row.hot}</td><td>{row.capacidad}</td></tr>)}</tbody></table></div></article></section>;
+}
+function TeamManager() {
+  const [date, setDate] = useState(""); const [store, setStore] = useState(""); const [rows, setRows] = useState<Capacity[]>([]);
+  useEffect(() => { rpc<{ assignment_date: string }[]>("get_available_assignment_dates").then((data) => setDate(data?.[0]?.assignment_date || "")); }, []);
+  useEffect(() => { if (date) rpc<Capacity[]>("get_advisor_capacity", { p_assignment_date: date }).then((data) => setRows(data || [])); }, [date]);
+  const stores = [...new Set(rows.map((row) => row.punto_venta_id))]; const visible = rows.filter((row) => !store || row.punto_venta_id === store);
+  return <section className="page-section"><div className="section-heading"><div><span className="eyebrow">CAPACIDAD Y CARGA</span><h2>Equipo comercial</h2><p>Distribución de la jornada por asesor y punto de venta.</p></div></div><div className="filters"><select aria-label="Punto de venta" value={store} onChange={(e) => setStore(e.target.value)}><option value="">Todos los puntos</option>{stores.map((x) => <option key={x}>{x}</option>)}</select></div><div className="table-wrap"><table><thead><tr><th>Asesor</th><th>ID</th><th>Punto de venta</th><th>Asignados</th><th>Capacidad</th><th>Carga</th></tr></thead><tbody>{visible.map((row) => <tr key={row.asesor_id}><td><strong>{row.nombre || "Nombre no informado"}</strong></td><td>{row.asesor_id}</td><td>{row.punto_venta_id}</td><td>{row.asignados}</td><td>{row.capacidad}</td><td>{Math.round((row.load_ratio || 0) * 100)}%</td></tr>)}</tbody></table></div></section>;
+}
+function MethodologyManager() {
+  const rows = [["Señales comerciales", "Hasta 45 puntos"], ["Antigüedad / SLA", "Hasta 30 puntos"], ["Disponibilidad", "Hasta 20 puntos"], ["Propensión histórica", "Hasta 5 puntos"]];
+  return <section className="page-section"><div className="section-heading"><div><span className="eyebrow">TRANSPARENCIA OPERATIVA</span><h2>Metodología y calidad</h2><p>Cómo se construye la prioridad diaria.</p></div></div><div className="method-grid"><article className="panel-card"><h3>Cómo se calcula prioridad</h3>{rows.map(([name, value]) => <div className="method-row" key={name}><strong>{name}</strong><span>{value}</span></div>)}<p className="method-note">La propensión histórica es una señal auxiliar y aporta como máximo 5 de 100 puntos de prioridad.</p></article><article className="panel-card"><h3>Modelo histórico</h3><div className="quality-metrics"><Info name="Modelo" value="Logistic Regression" /><Info name="Validación" value="Temporal" /><Info name="ROC-AUC" value="0.5235" /><Info name="PR-AUC" value="0.1003" /><Info name="Tasa base" value="0.0905" /><Info name="Lift Top 20%" value="1.2438" /><Info name="FIFO Top 20%" value="0.9674" /></div></article></div></section>;
+}
+void Dashboard;
+void LeadsPage;
+void ManagerLeadsPage;
+void ManagerDashboard;
+void Team;
+void TeamManager;
+void Methodology;
+function App() {
+  const [session, setSession] = useState<boolean | null>(null); const [profile, setProfile] = useState<Profile | null>(null); const [profileError, setProfileError] = useState(false);
+  useEffect(() => { if (!supabase) { setSession(false); return; } supabase.auth.getSession().then(({ data }) => setSession(Boolean(data.session))); const listener = supabase.auth.onAuthStateChange((_event, current) => { setSession(Boolean(current)); if (!current) setProfile(null); }); return () => listener.data.subscription.unsubscribe(); }, []);
+  useEffect(() => { if (session && supabase) rpc<Profile[]>("get_current_profile").then((data) => { setProfile(data?.[0] || null); setProfileError(!data?.[0]); }).catch(() => setProfileError(true)); }, [session]);
+  if (session === null) return <div className="loading-state full">Cargando acceso…</div>; if (!session) return <Login />; if (profileError || !profile) return <Shell profile={{ user_id: "", empresa_id: "", advisor_id: null, role: "advisor" }}><section className="empty-state large"><CircleAlert size={34} /><h2>Acceso pendiente</h2><p>Tu usuario aún no tiene un perfil comercial activo. Solicita la habilitación a un responsable.</p></section></Shell>;
+  return <Shell profile={profile}><Routes><Route path="/leads" element={profile.role === "manager" ? <ManagerLeadsPageOps /> : <AdvisorLeadsPage profile={profile} />} /><Route path="/leads/:rawRowId" element={<LeadDetail profile={profile} />} />{profile.role === "manager" && <><Route path="/dashboard" element={<ManagerDashboardOps />} /><Route path="/equipo" element={<TeamManagerOps />} /><Route path="/metodologia" element={<MethodologyManager />} /></>}<Route path="*" element={<Navigate to="/leads" replace />} /></Routes></Shell>;
+}
+export default function RootApp() { return <BrowserRouter><App /></BrowserRouter>; }

@@ -3,7 +3,7 @@
 import hashlib
 from pathlib import Path
 
-PROMPT_VERSION = "conversation_extraction_v2"
+PROMPT_VERSION = "conversation_extraction_v3"
 PROMPT_PATH = Path(__file__).resolve().parents[3] / "prompts" / f"{PROMPT_VERSION}.md"
 
 

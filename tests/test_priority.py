@@ -33,6 +33,10 @@ def test_maximum_conversation_component_and_zero_initial():
     assert component == 45
     zero, _ = conversation_component(base_row(conversation_cuota_inicial=0))
     assert zero == 38
+    cash, _ = conversation_component(
+        base_row(conversation_forma_pago="contado")
+    )
+    assert cash == 38
 
 
 def test_sla_boundaries_and_availability():

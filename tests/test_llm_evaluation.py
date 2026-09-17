@@ -36,11 +36,12 @@ def test_extraction_schema_rejects_invalid_enum_and_extra_field():
 
 def test_prompt_is_loadable_and_versioned():
     prompt = load_extraction_prompt()
-    assert PROMPT_VERSION == "conversation_extraction_v2"
+    assert PROMPT_VERSION == "conversation_extraction_v3"
     assert "No inventes" in prompt
-    assert '"tengo X para la inicial"' in prompt
-    assert 'cuota_inicial=0' in prompt
-    assert '"voy esta tarde"' in prompt
+    assert "cuota_inicial" in prompt
+    assert "asesor" in prompt
+    assert "cuota mensual" in prompt
+    assert "pidio_cotizacion" in prompt
     assert len(prompt_hash()) == 64
 
 

@@ -18,7 +18,11 @@ def conversation_component(row: dict[str, Any]) -> tuple[float, list[str]]:
     if row.get("conversation_pidio_cotizacion") is True:
         value += 8
         reasons.append("Solicitó cotización")
-    if row.get("conversation_cuota_inicial") is not None and row["conversation_cuota_inicial"] > 0:
+    if (
+        row.get("conversation_cuota_inicial") is not None
+        and row["conversation_cuota_inicial"] > 0
+        and row.get("conversation_forma_pago") == "credito"
+    ):
         value += 7
         reasons.append("Reportó cuota inicial")
     if row.get("conversation_forma_pago") in {"credito", "contado"}:

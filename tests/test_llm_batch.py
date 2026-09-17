@@ -66,7 +66,7 @@ def test_batch_transport_accepts_extra_evidence_for_item_normalization():
         evidencia=[{"campo": "intencion", "fragmento": "uno", "emisor": "cliente"}] * 3,
     )
     item = BatchConversationExtractionItem(conversation_id="CONV-1", extraction=extraction)
-    assert len(batch_service.normalize_transport_extraction(item.extraction).evidencia) == 2
+    assert len(batch_service.normalize_transport_extraction(item.extraction).evidencia) == 3
 
 
 def test_fragment_is_truncated_and_empty_evidence_is_dropped():

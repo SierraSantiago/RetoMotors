@@ -23,6 +23,7 @@ from reto_ia.llm.persistence import sanitize_postgres_value
 from reto_ia.llm.prompting import PROMPT_VERSION, load_extraction_prompt, prompt_hash
 from reto_ia.llm.repository import fetch_checkpoint, upsert_extractions
 from reto_ia.llm.schema import ConversationExtraction
+from reto_ia.llm.semantics import enforce_customer_signal_evidence, reconcile_explicit_facts
 
 
 @dataclass(frozen=True)
@@ -31,6 +32,7 @@ class ConversationCase:
     lead_id: str | None
     canonical_text: str
     conversation_hash: str
+    messages: list[dict[str, Any]] | None = None
 
 
 def prepare_cases(rows: list[dict[str, Any]]) -> list[ConversationCase]:
@@ -43,6 +45,7 @@ def prepare_cases(rows: list[dict[str, Any]]) -> list[ConversationCase]:
                 lead_id=row.get("lead_id"),
                 canonical_text=canonical_text,
                 conversation_hash=conversation_hash(canonical_text),
+                messages=row["mensajes"],
             )
         )
     return sorted(cases, key=lambda case: case.conversation_id)
@@ -64,7 +67,7 @@ Devuelve exclusivamente structured output válido según el schema recibido.
 Devuelve exactamente un resultado por cada conversation_id recibido.
 No inventes IDs, no uses la posición de la respuesta para identificar casos y
 no incluyas texto fuera del structured output. Cada extracción puede incluir
-como máximo 2 evidencias breves, literales y atribuidas al emisor correcto.
+como máximo 5 evidencias breves, literales y atribuidas al emisor correcto.
 """.strip(),
     ]
     for case in cases:
@@ -74,7 +77,9 @@ como máximo 2 evidencias breves, literales y atribuidas al emisor correcto.
     return "\n\n".join(sections)
 
 
-def normalize_transport_extraction(raw: Any) -> ConversationExtraction:
+def normalize_transport_extraction(
+    raw: Any, messages: list[dict[str, Any]] | None = None
+) -> ConversationExtraction:
     """Limit batch evidence, then validate the semantic extraction item."""
 
     payload = raw.model_dump(mode="json") if isinstance(raw, BaseModel) else raw
@@ -96,7 +101,10 @@ def normalize_transport_extraction(raw: Any) -> ConversationExtraction:
             evidence_item = dict(item)
             evidence_item["fragmento"] = fragment
             normalized_evidence.append(evidence_item)
-    payload["evidencia"] = normalized_evidence[:2]
+    payload["evidencia"] = normalized_evidence[:5]
+    payload = enforce_customer_signal_evidence(payload)
+    if messages is not None:
+        payload = reconcile_explicit_facts(payload, messages)
     return ConversationExtraction.model_validate(payload)
 
 
@@ -170,6 +178,7 @@ def plan_cases(
     *,
     model: str,
     retry_errors: bool,
+    force: bool = False,
 ) -> dict[str, Any]:
     p_hash = prompt_hash()
     checkpoint = fetch_checkpoint(
@@ -184,7 +193,7 @@ def plan_cases(
     existing_errors_skipped = 0
     for case in cases:
         state = checkpoint.get((case.conversation_id, case.conversation_hash))
-        if state and state["status"] == "SUCCESS":
+        if state and state["status"] == "SUCCESS" and not force:
             cached += 1
         elif state and state["status"] == "ERROR" and not retry_errors:
             existing_errors_skipped += 1
@@ -259,7 +268,8 @@ def execute_pending(
                 else:
                     try:
                         extraction = normalize_transport_extraction(
-                            by_id[response_id].extraction
+                            by_id[response_id].extraction,
+                            case.messages,
                         )
                     except Exception as item_error:  # noqa: BLE001 - isolate item failures.
                         records.append(

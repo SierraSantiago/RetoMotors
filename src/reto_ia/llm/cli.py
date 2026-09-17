@@ -45,9 +45,11 @@ def main() -> int:
     )
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--limit", type=int)
+    parser.add_argument("--conversation-id", action="append", dest="conversation_ids")
     parser.add_argument("--model", default=None)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--retry-errors", action="store_true")
+    parser.add_argument("--force", action="store_true")
     parser.add_argument("--database-url", default=None)
     args = parser.parse_args()
     if args.batch_size < 1 or (args.limit is not None and args.limit < 1):
@@ -62,11 +64,17 @@ def main() -> int:
     try:
         with psycopg.connect(database_url) as connection:
             fetch_limit = None if args.retry_errors and args.limit is not None else args.limit
-            cases = prepare_cases(fetch_conversations(connection, fetch_limit))
-            plan = plan_cases(connection, cases, model=model, retry_errors=args.retry_errors)
+            cases = prepare_cases(
+                fetch_conversations(connection, fetch_limit, args.conversation_ids)
+            )
+            plan = plan_cases(
+                connection, cases, model=model, retry_errors=args.retry_errors, force=args.force
+            )
             if args.retry_errors and args.limit is not None:
                 cases = plan["pending"][: args.limit]
-                plan = plan_cases(connection, cases, model=model, retry_errors=True)
+                plan = plan_cases(
+                    connection, cases, model=model, retry_errors=True, force=args.force
+                )
             args.model = model
             if args.dry_run:
                 _print_plan(args, cases, plan)

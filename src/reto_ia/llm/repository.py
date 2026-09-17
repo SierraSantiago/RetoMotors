@@ -9,7 +9,11 @@ from psycopg.types.json import Jsonb
 from reto_ia.llm.persistence import sanitize_postgres_value
 
 
-def fetch_conversations(connection: Connection, limit: int | None = None) -> list[dict[str, Any]]:
+def fetch_conversations(
+    connection: Connection,
+    limit: int | None = None,
+    conversation_ids: Iterable[str] | None = None,
+) -> list[dict[str, Any]]:
     query = """
         select conversacion_id, lead_id, mensajes
         from staging.stg_conversations
@@ -17,9 +21,15 @@ def fetch_conversations(connection: Connection, limit: int | None = None) -> lis
         order by conversacion_id
     """
     params: tuple[Any, ...] = ()
+    if conversation_ids is not None:
+        query = query.replace(
+            "where conversacion_id is not null",
+            "where conversacion_id is not null and conversacion_id = any(%s)",
+        )
+        params = (list(conversation_ids),)
     if limit is not None:
         query += " limit %s"
-        params = (limit,)
+        params += (limit,)
     with connection.cursor() as cursor:
         cursor.execute(query, params)
         return [
