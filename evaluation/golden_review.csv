@@ -1,0 +1,244 @@
+﻿conversation_id,conversation_text,modelo_interes,presupuesto,cuota_inicial,forma_pago,intencion,objecion_principal,pidio_cita,pidio_cotizacion,reviewed
+CONV-00587,"CLIENTE: Hola buenas, me interesa la Bajaj Pulsar RS 200
+ASESOR: Ã‚Â¡Buenas tardes! Con mucho gusto le colaboro. La Bajaj Pulsar RS 200 estÃƒÂ¡ en $15.490.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Solo estaba mirando precios
+CLIENTE: Estoy mirando tambiÃƒÂ©n otra marca
+ASESOR: Sin problema, cualquier cosa quedo atento por acÃƒÂ¡
+CLIENTE: Ok gracias",Bajaj Pulsar RS 200,,,no_informa,baja,,false,false,true
+CONV-00162,"CLIENTE: Buenos dÃƒÂ­as, estoy averiguando por la AKT Evo RS 150
+ASESOR: Ã‚Â¡Hola buenas! Con mucho gusto le colaboro. La AKT Evo RS 150 estÃƒÂ¡ en $7.190.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: De contado, ya tengo la plata lista, 7,2 millones
+ASESOR: Perfecto. Ã‚Â¿Usted tiene cÃƒÂ³mo demostrar ingresos? Le puedo dejar el estudio de crÃƒÂ©dito adelantado
+CLIENTE: SÃƒÂ­, soy independiente pero tengo extractos
+CLIENTE: Voy esta tarde para allÃƒÂ¡, Ã‚Â¿hasta quÃƒÂ© hora abren?
+ASESOR: Claro que sÃƒÂ­, lo esperamos. Estamos de 8 a 6, Ã‚Â¿le separo la moto mientras tanto?
+CLIENTE: HÃƒÂ¡gale pues, ya voy en camino",AKT Evo RS 150,7200000,,contado,alta,,true,false,true
+CONV-00292,"CLIENTE: Buenas, quiero informaciÃƒÂ³n de la Bajaj Pulsar NS 160
+ASESOR: Ã‚Â¡Buenas tardes! Con mucho gusto le colaboro. La Bajaj Pulsar NS 160 estÃƒÂ¡ en $11.290.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Ã‚Â¿Y no tienen algo mÃƒÂ¡s econÃƒÂ³mico? tipo la Honda CB 190R
+ASESOR: Claro. la Honda CB 190R estÃƒÂ¡ en $13.990.000 mÃƒÂ¡s papeles
+CLIENTE: Esa sÃƒÂ­ me sirve. Tengo 1000mil de inicial
+CLIENTE: Ã‚Â¿MaÃƒÂ±ana los visito?",Honda CB 190R,,1000000,no_informa,alta,precio,true,false,true
+CONV-00018,"CLIENTE: QuÃƒÂ© mÃƒÂ¡s pues, vi el anuncio de la Bajaj Dominar 400
+ASESOR: Ã‚Â¡Hola! Con mucho gusto le colaboro. La Bajaj Dominar 400 estÃƒÂ¡ en $24.900.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: A crÃƒÂ©dito, Ã‚Â¿cÃƒÂ³mo es el proceso?
+ASESOR: Con esa inicial la cuota le queda alrededor de $480.000 a 48 meses.
+CLIENTE: Esa tasa estÃƒÂ¡ muy alta
+ASESOR: Le entiendo. Ã‚Â¿Le mando la cotizaciÃƒÂ³n formal al WhatsApp para que la revise con calma?
+CLIENTE: Listo, envÃƒÂ­emela",Bajaj Dominar 400,,,credito,alta,tasa,false,true,true
+CONV-00502,"CLIENTE: QuÃƒÂ© mÃƒÂ¡s pues, me interesa la Hero Eco Deluxe 100
+ASESOR: Ã‚Â¡Hola! Con mucho gusto le colaboro. La Hero Eco Deluxe 100 estÃƒÂ¡ en $4.990.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Financiada, tengo 2,0 millones para la inicial
+ASESOR: Perfecto. Ã‚Â¿Usted tiene cÃƒÂ³mo demostrar ingresos? Le puedo dejar el estudio de crÃƒÂ©dito adelantado
+CLIENTE: Claro, tengo contrato indefinido
+CLIENTE: Ã‚Â¿A quÃƒÂ© hora los puedo visitar hoy?
+ASESOR: Claro que sÃƒÂ­, lo esperamos. Estamos de 8 a 6, Ã‚Â¿le separo la moto mientras tanto?
+CLIENTE: HÃƒÂ¡gale pues, ya voy en camino",Hero Eco Deluxe 100,,2000000,credito,alta,,true,false,true
+CONV-00210,"CLIENTE: Hola buenas, vi el anuncio de la Suzuki GN 125
+ASESOR: Ã‚Â¡Buen dÃƒÂ­a! Con mucho gusto le colaboro. La Suzuki GN 125 estÃƒÂ¡ en $7.490.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Solo estaba mirando precios
+CLIENTE: No tengo inicial
+ASESOR: Sin problema, cualquier cosa quedo atento por acÃƒÂ¡
+CLIENTE: Dale pues",Suzuki GN 125,,0,no_informa,baja,otra,false,false,true
+CONV-00143,"CLIENTE: Buen dÃƒÂ­a, vi el anuncio de la Suzuki Best 125
+ASESOR: Ã‚Â¡QsÃƒÂ©! Con mucho gusto le colaboro. La Suzuki Best 125 estÃƒÂ¡ en $6.590.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Financiada. Tengo como 1 millones, Ã‚Â¿alcanza para la inicial?
+ASESOR: Con esa inicial la cuota le queda alrededor de $480.000 a 48 meses.
+CLIENTE: Es que la necesito esta semana
+ASESOR: Le entiendo. Ã‚Â¿Le mando la cotizaciÃƒÂ³n formal al WhatsApp para que la revise con calma?
+CLIENTE: Listo, envÃƒÂ­emela",Suzuki Best 125,,1000000,credito,alta,,false,true,true
+CONV-00613,"CLIENTE: Buenas tardes, estoy averiguando por la Honda CB 125F Twister
+ASESOR: Ã‚Â¡Hola! Con mucho gusto le colaboro. La Honda CB 125F Twister estÃƒÂ¡ en $7.990.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Financiada, pero primero quiero saber cuÃƒÂ¡nto queda la cuota
+ASESOR: Con esa inicial la cuota le queda alrededor de $480.000 a 48 meses.
+CLIENTE: Esa tasa estÃƒÂ¡ muy alta
+ASESOR: Le entiendo. Ã‚Â¿Le mando la cotizaciÃƒÂ³n formal al WhatsApp para que la revise con calma?
+CLIENTE: Bueno, mÃƒÂ¡ndela y yo le digo",Honda CB 125F Twister,,,credito,alta,tasa,false,true,true
+CONV-00090,"CLIENTE: QuÃƒÂ© mÃƒÂ¡s pues, me interesa la Bajaj Dominar 400
+ASESOR: Ã‚Â¡QuÃƒÂ© mÃƒÂ¡s pues! Con mucho gusto le colaboro. La Bajaj Dominar 400 estÃƒÂ¡ en $24.900.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: A crÃƒÂ©dito, Ã‚Â¿cÃƒÂ³mo es el proceso?
+ASESOR: Con esa inicial la cuota le queda alrededor de $320.000 a 48 meses.
+CLIENTE: No, eso se me sale del presupuesto
+ASESOR: Le entiendo. Ã‚Â¿Le mando la cotizaciÃƒÂ³n formal al WhatsApp para que la revise con calma?
+CLIENTE: SÃƒÂ­ porfa, mÃƒÂ¡ndemela",Bajaj Dominar 400,,,credito,alta,cuota,false,true,true
+CONV-00134,"CLIENTE: Buenas tardes, me interesa la Honda Navi
+ASESOR: Ã‚Â¡Buen dÃƒÂ­a! Con mucho gusto le colaboro. La Honda Navi estÃƒÂ¡ en $7.290.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Solo estaba mirando precios
+CLIENTE: No, eso se me sale del presupuesto
+ASESOR: Sin problema, cualquier cosa quedo atento por acÃƒÂ¡
+CLIENTE: Dale pues",Honda Navi,,,no_informa,baja,precio,false,false,true
+CONV-00494,"CLIENTE: Hola buenas, me interesa la Honda Navi
+ASESOR: Ã‚Â¡QsÃƒÂ©! Con mucho gusto le colaboro. La Honda Navi estÃƒÂ¡ en $7.290.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Financiada. Tengo como 1,2 millones, Ã‚Â¿alcanza para la inicial?
+ASESOR: Con esa inicial la cuota le queda alrededor de $480.000 a 48 meses.
+CLIENTE: Es que la necesito esta semana
+ASESOR: Le entiendo. Ã‚Â¿Le mando la cotizaciÃƒÂ³n formal al WhatsApp para que la revise con calma?
+CLIENTE: Bueno, mÃƒÂ¡ndela y yo le digo",,,,,,,,,false
+CONV-00256,"CLIENTE: Buen dÃƒÂ­a, estoy averiguando por la Bajaj Dominar 400
+ASESOR: Ã‚Â¡QuÃƒÂ© mÃƒÂ¡s pues! Con mucho gusto le colaboro. La Bajaj Dominar 400 estÃƒÂ¡ en $24.900.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Financiada, tengo 2000mil para la inicial
+ASESOR: Perfecto. Ã‚Â¿Usted tiene cÃƒÂ³mo demostrar ingresos? Le puedo dejar el estudio de crÃƒÂ©dito adelantado
+CLIENTE: SÃƒÂ­ seÃƒÂ±or, trabajo en empresa con contrato fijo
+CLIENTE: Ã‚Â¿A quÃƒÂ© hora los puedo visitar hoy?
+ASESOR: Claro que sÃƒÂ­, lo esperamos. Estamos de 8 a 6, Ã‚Â¿le separo la moto mientras tanto?
+CLIENTE: SÃƒÂ­ por favor, voy saliendo",,,,,,,,,false
+CONV-00004,"CLIENTE: Buenas, me interesa la Bajaj Dominar 400
+ASESOR: Ã‚Â¡Buen dÃƒÂ­a! Con mucho gusto le colaboro. La Bajaj Dominar 400 estÃƒÂ¡ en $24.900.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Financiada. Tengo como 0 millones, Ã‚Â¿alcanza para la inicial?
+ASESOR: Con esa inicial la cuota le queda alrededor de $550.000 a 48 meses.
+CLIENTE: No tengo con quÃƒÂ© dar la inicial ahora
+ASESOR: Le entiendo. Ã‚Â¿Le mando la cotizaciÃƒÂ³n formal al WhatsApp para que la revise con calma?
+CLIENTE: Listo, envÃƒÂ­emela",,,,,,,,,false
+CONV-00425,"CLIENTE: Buenas, me interesa la Bajaj Discover 125
+ASESOR: Ã‚Â¡Hola! Con mucho gusto le colaboro. La Bajaj Discover 125 estÃƒÂ¡ en $6.990.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Financiada, tengo 4 palos para la inicial
+ASESOR: Perfecto. Ã‚Â¿Usted tiene cÃƒÂ³mo demostrar ingresos? Le puedo dejar el estudio de crÃƒÂ©dito adelantado
+CLIENTE: Claro, tengo contrato indefinido
+CLIENTE: Ã‚Â¿A quÃƒÂ© hora los puedo visitar hoy?
+ASESOR: Claro que sÃƒÂ­, lo esperamos. Estamos de 8 a 6, Ã‚Â¿le separo la moto mientras tanto?
+CLIENTE: HÃƒÂ¡gale pues, ya voy en camino",,,,,,,,,false
+CONV-00648,"CLIENTE: QsÃƒÂ©, estoy averiguando por la AKT NKD 125
+ASESOR: Ã‚Â¡QsÃƒÂ©! Con mucho gusto le colaboro. La AKT NKD 125 estÃƒÂ¡ en $5.290.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: A crÃƒÂ©dito, Ã‚Â¿cÃƒÂ³mo es el proceso?
+ASESOR: Con esa inicial la cuota le queda alrededor de $550.000 a 48 meses.
+CLIENTE: Ã‚Â¿Y cuÃƒÂ¡nto queda la cuota mensual? porque el interÃƒÂ©s estÃƒÂ¡ caro
+ASESOR: Le entiendo. Ã‚Â¿Le mando la cotizaciÃƒÂ³n formal al WhatsApp para que la revise con calma?
+CLIENTE: SÃƒÂ­ porfa, mÃƒÂ¡ndemela",,,,,,,,,false
+CONV-00089,"CLIENTE: Buenas, estoy averiguando por la Honda CB 125F Twister
+ASESOR: Ã‚Â¡Buenas! Con mucho gusto le colaboro. La Honda CB 125F Twister estÃƒÂ¡ en $7.990.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Solo estaba mirando precios
+CLIENTE: Ã‚Â¿Y cuÃƒÂ¡nto queda la cuota mensual? porque el interÃƒÂ©s estÃƒÂ¡ caro
+ASESOR: Sin problema, cualquier cosa quedo atento por acÃƒÂ¡
+CLIENTE: Ok",,,,,,,,,false
+CONV-00640,"CLIENTE: Buenas tardes, vi el anuncio de la Suzuki V-Strom 250
+ASESOR: Ã‚Â¡Buenos dÃƒÂ­as! Con mucho gusto le colaboro. La Suzuki V-Strom 250 estÃƒÂ¡ en $21.900.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Solo estaba mirando precios
+CLIENTE: Ã‚Â¿Y cuÃƒÂ¡nto se demora la entrega? necesito la moto ya
+ASESOR: Sin problema, cualquier cosa quedo atento por acÃƒÂ¡
+CLIENTE: Dale pues",,,,,,,,,false
+CONV-00311,"CLIENTE: QuÃƒÂ© mÃƒÂ¡s pues, me interesa la Honda Dio 110
+ASESOR: Ã‚Â¡Buenas tardes! Con mucho gusto le colaboro. La Honda Dio 110 estÃƒÂ¡ en $6.890.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: De contado, ya tengo la plata lista, 6800mil
+ASESOR: Perfecto. Ã‚Â¿Usted tiene cÃƒÂ³mo demostrar ingresos? Le puedo dejar el estudio de crÃƒÂ©dito adelantado
+CLIENTE: SÃƒÂ­, soy independiente pero tengo extractos
+CLIENTE: Voy esta tarde para allÃƒÂ¡, Ã‚Â¿hasta quÃƒÂ© hora abren?
+ASESOR: Claro que sÃƒÂ­, lo esperamos. Estamos de 8 a 6, Ã‚Â¿le separo la moto mientras tanto?
+CLIENTE: Listo, sepÃƒÂ¡remela",,,,,,,,,false
+CONV-00117,"CLIENTE: Buen dÃƒÂ­a, quiero informaciÃƒÂ³n de la Hero Dash 110
+ASESOR: Ã‚Â¡Hola! Con mucho gusto le colaboro. La Hero Dash 110 estÃƒÂ¡ en $6.290.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Solo estaba mirando precios
+CLIENTE: Estoy en centrales
+ASESOR: Sin problema, cualquier cosa quedo atento por acÃƒÂ¡
+CLIENTE: Dale pues",,,,,,,,,false
+CONV-00259,"CLIENTE: Buenos dÃƒÂ­as, quiero informaciÃƒÂ³n de la Suzuki Best 125
+ASESOR: Ã‚Â¡Hola buenas! Con mucho gusto le colaboro. La Suzuki Best 125 estÃƒÂ¡ en $6.590.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Financiada. Tengo como 0,8 millones, Ã‚Â¿alcanza para la inicial?
+ASESOR: Con esa inicial la cuota le queda alrededor de $480.000 a 48 meses.
+CLIENTE: Me estÃƒÂ¡n ofreciendo otra por menos plata
+ASESOR: Le entiendo. Ã‚Â¿Le mando la cotizaciÃƒÂ³n formal al WhatsApp para que la revise con calma?
+CLIENTE: SÃƒÂ­ porfa, mÃƒÂ¡ndemela",,,,,,,,,false
+CONV-00557,"CLIENTE: Buenos dÃƒÂ­as, quiero informaciÃƒÂ³n de la Honda Navi
+ASESOR: Ã‚Â¡Buenos dÃƒÂ­as! Con mucho gusto le colaboro. La Honda Navi estÃƒÂ¡ en $7.290.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Era por curiosidad nomÃƒÂ¡s
+CLIENTE: Ã‚Â¿Y cuÃƒÂ¡nto queda la cuota mensual? porque el interÃƒÂ©s estÃƒÂ¡ caro
+ASESOR: Sin problema, cualquier cosa quedo atento por acÃƒÂ¡
+CLIENTE: Dale pues",,,,,,,,,false
+CONV-00315,"CLIENTE: Hola buenas, me interesa la AKT TTR 200
+ASESOR: Ã‚Â¡Buenas! Con mucho gusto le colaboro. La AKT TTR 200 estÃƒÂ¡ en $9.890.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Financiada, tengo 4000mil para la inicial
+ASESOR: Perfecto. Ã‚Â¿Usted tiene cÃƒÂ³mo demostrar ingresos? Le puedo dejar el estudio de crÃƒÂ©dito adelantado
+CLIENTE: SÃƒÂ­ seÃƒÂ±or, trabajo en empresa con contrato fijo
+CLIENTE: Ã‚Â¿A quÃƒÂ© hora los puedo visitar hoy?
+ASESOR: Claro que sÃƒÂ­, lo esperamos. Estamos de 8 a 6, Ã‚Â¿le separo la moto mientras tanto?
+CLIENTE: SÃƒÂ­ por favor, voy saliendo",,,,,,,,,false
+CONV-00602,"CLIENTE: Buenos dÃƒÂ­as, vi el anuncio de la Honda XR 150L
+ASESOR: Ã‚Â¡QuÃƒÂ© mÃƒÂ¡s pues! Con mucho gusto le colaboro. La Honda XR 150L estÃƒÂ¡ en $11.490.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Financiada. Tengo como 0 millones, Ã‚Â¿alcanza para la inicial?
+ASESOR: Con esa inicial la cuota le queda alrededor de $320.000 a 48 meses.
+CLIENTE: Ã‚Â¿Y cuÃƒÂ¡nto se demora la entrega? necesito la moto ya
+ASESOR: Le entiendo. Ã‚Â¿Le mando la cotizaciÃƒÂ³n formal al WhatsApp para que la revise con calma?
+CLIENTE: Bueno, mÃƒÂ¡ndela y yo le digo",,,,,,,,,false
+CONV-00073,"CLIENTE: Buen dÃƒÂ­a, me interesa la Hero Eco Deluxe 100
+ASESOR: Ã‚Â¡Hola buenas! Con mucho gusto le colaboro. La Hero Eco Deluxe 100 estÃƒÂ¡ en $4.990.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Ã‚Â¿Y no tienen algo mÃƒÂ¡s econÃƒÂ³mico? tipo la Suzuki Best 125
+ASESOR: Claro. la Suzuki Best 125 estÃƒÂ¡ en $6.590.000 mÃƒÂ¡s papeles
+CLIENTE: Esa sÃƒÂ­ me sirve. Tengo como 2 millonzitos de inicial
+CLIENTE: Ã‚Â¿MaÃƒÂ±ana los visito?",,,,,,,,,false
+CONV-00504,"CLIENTE: QuÃƒÂ© mÃƒÂ¡s pues, estoy averiguando por la Bajaj Pulsar NS 125
+ASESOR: Ã‚Â¡Buen dÃƒÂ­a! Con mucho gusto le colaboro. La Bajaj Pulsar NS 125 estÃƒÂ¡ en $8.990.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: A crÃƒÂ©dito, Ã‚Â¿cÃƒÂ³mo es el proceso?
+ASESOR: Con esa inicial la cuota le queda alrededor de $550.000 a 48 meses.
+CLIENTE: Ã‚Â¿Y cuÃƒÂ¡nto queda la cuota mensual? porque el interÃƒÂ©s estÃƒÂ¡ caro
+ASESOR: Le entiendo. Ã‚Â¿Le mando la cotizaciÃƒÂ³n formal al WhatsApp para que la revise con calma?
+CLIENTE: SÃƒÂ­ porfa, mÃƒÂ¡ndemela",,,,,,,,,false
+CONV-00498,"CLIENTE: Hola buenas, estoy averiguando por la Bajaj Pulsar RS 200
+ASESOR: Ã‚Â¡Hola buenas! Con mucho gusto le colaboro. La Bajaj Pulsar RS 200 estÃƒÂ¡ en $15.490.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Solo estaba mirando precios
+CLIENTE: Es que la necesito esta semana
+ASESOR: Sin problema, cualquier cosa quedo atento por acÃƒÂ¡
+CLIENTE: Listo gracias",,,,,,,,,false
+CONV-00543,"CLIENTE: Hola buenas, me interesa la AKT TTR 200
+ASESOR: Ã‚Â¡Buenos dÃƒÂ­as! Con mucho gusto le colaboro. La AKT TTR 200 estÃƒÂ¡ en $9.890.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Solo estaba mirando precios
+CLIENTE: Tengo un reporte viejo en centrales, Ã‚Â¿eso afecta?
+ASESOR: Sin problema, cualquier cosa quedo atento por acÃƒÂ¡
+CLIENTE: Listo gracias",,,,,,,,,false
+CONV-00358,"CLIENTE: QsÃƒÂ©, vi el anuncio de la Hero Eco Deluxe 100
+ASESOR: Ã‚Â¡Buenos dÃƒÂ­as! Con mucho gusto le colaboro. La Hero Eco Deluxe 100 estÃƒÂ¡ en $4.990.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: De contado, ya tengo la plata lista, como 4 millonzitos
+ASESOR: Perfecto. Ã‚Â¿Usted tiene cÃƒÂ³mo demostrar ingresos? Le puedo dejar el estudio de crÃƒÂ©dito adelantado
+CLIENTE: SÃƒÂ­, soy independiente pero tengo extractos
+CLIENTE: Ã‚Â¿Puedo pasar maÃƒÂ±ana a la sede a verla?
+ASESOR: Claro que sÃƒÂ­, lo esperamos. Estamos de 8 a 6, Ã‚Â¿le separo la moto mientras tanto?
+CLIENTE: SÃƒÂ­ por favor, voy saliendo",,,,,,,,,false
+CONV-00252,"CLIENTE: Hola, me interesa la AKT NKD 125
+ASESOR: Ã‚Â¡Buenas! Con mucho gusto le colaboro. La AKT NKD 125 estÃƒÂ¡ en $5.290.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Ã‚Â¿Y no tienen algo mÃƒÂ¡s econÃƒÂ³mico? tipo la Honda XR 150L
+ASESOR: Claro. la Honda XR 150L estÃƒÂ¡ en $11.490.000 mÃƒÂ¡s papeles
+CLIENTE: Esa sÃƒÂ­ me sirve. Tengo $1.000.000 de inicial
+CLIENTE: Ã‚Â¿MaÃƒÂ±ana los visito?",,,,,,,,,false
+CONV-00077,"CLIENTE: Hola buenas, quiero informaciÃƒÂ³n de la Honda XR 150L
+ASESOR: Ã‚Â¡Buenos dÃƒÂ­as! Con mucho gusto le colaboro. La Honda XR 150L estÃƒÂ¡ en $11.490.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: A crÃƒÂ©dito, Ã‚Â¿cÃƒÂ³mo es el proceso?
+ASESOR: Con esa inicial la cuota le queda alrededor de $480.000 a 48 meses.
+CLIENTE: Muy costosa la verdad
+ASESOR: Le entiendo. Ã‚Â¿Le mando la cotizaciÃƒÂ³n formal al WhatsApp para que la revise con calma?
+CLIENTE: SÃƒÂ­ porfa, mÃƒÂ¡ndemela",,,,,,,,,false
+CONV-00491,"CLIENTE: Hola, vi el anuncio de la Bajaj Pulsar NS 160
+ASESOR: Ã‚Â¡Buen dÃƒÂ­a! Con mucho gusto le colaboro. La Bajaj Pulsar NS 160 estÃƒÂ¡ en $11.290.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: De contado, ya tengo la plata lista, 11200mil
+ASESOR: Perfecto. Ã‚Â¿Usted tiene cÃƒÂ³mo demostrar ingresos? Le puedo dejar el estudio de crÃƒÂ©dito adelantado
+CLIENTE: SÃƒÂ­, soy independiente pero tengo extractos
+CLIENTE: Ã‚Â¿Puedo pasar maÃƒÂ±ana a la sede a verla?
+ASESOR: Claro que sÃƒÂ­, lo esperamos. Estamos de 8 a 6, Ã‚Â¿le separo la moto mientras tanto?
+CLIENTE: HÃƒÂ¡gale pues, ya voy en camino",,,,,,,,,false
+CONV-00345,"CLIENTE: Buenos dÃƒÂ­as, vi el anuncio de la Honda CB 125F Twister
+ASESOR: Ã‚Â¡Buenas tardes! Con mucho gusto le colaboro. La Honda CB 125F Twister estÃƒÂ¡ en $7.990.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: A crÃƒÂ©dito, Ã‚Â¿cÃƒÂ³mo es el proceso?
+ASESOR: Con esa inicial la cuota le queda alrededor de $480.000 a 48 meses.
+CLIENTE: Es que la inicial estÃƒÂ¡ muy alta
+ASESOR: Le entiendo. Ã‚Â¿Le mando la cotizaciÃƒÂ³n formal al WhatsApp para que la revise con calma?
+CLIENTE: Listo, envÃƒÂ­emela",,,,,,,,,false
+CONV-00146,"CLIENTE: Buenos dÃƒÂ­as, vi el anuncio de la Bajaj Discover 125
+ASESOR: Ã‚Â¡QsÃƒÂ©! Con mucho gusto le colaboro. La Bajaj Discover 125 estÃƒÂ¡ en $6.990.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: Financiada, pero primero quiero saber cuÃƒÂ¡nto queda la cuota
+ASESOR: Con esa inicial la cuota le queda alrededor de $480.000 a 48 meses.
+CLIENTE: Es que la necesito esta semana
+ASESOR: Le entiendo. Ã‚Â¿Le mando la cotizaciÃƒÂ³n formal al WhatsApp para que la revise con calma?
+CLIENTE: Listo, envÃƒÂ­emela",,,,,,,,,false
+CONV-00359,"CLIENTE: Buenas, estoy averiguando por la Honda XRE 300
+ASESOR: Ã‚Â¡Buenas tardes! Con mucho gusto le colaboro. La Honda XRE 300 estÃƒÂ¡ en $22.900.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: De contado, ya tengo la plata lista, como 22 millonzitos
+ASESOR: Perfecto. Ã‚Â¿Usted tiene cÃƒÂ³mo demostrar ingresos? Le puedo dejar el estudio de crÃƒÂ©dito adelantado
+CLIENTE: SÃƒÂ­ seÃƒÂ±or, trabajo en empresa con contrato fijo
+CLIENTE: Ã‚Â¿Puedo pasar maÃƒÂ±ana a la sede a verla?
+ASESOR: Claro que sÃƒÂ­, lo esperamos. Estamos de 8 a 6, Ã‚Â¿le separo la moto mientras tanto?
+CLIENTE: Listo, sepÃƒÂ¡remela",,,,,,,,,false
+CONV-00394,"CLIENTE: Hola buenas, vi el anuncio de la Honda XR 150L
+ASESOR: Ã‚Â¡QuÃƒÂ© mÃƒÂ¡s pues! Con mucho gusto le colaboro. La Honda XR 150L estÃƒÂ¡ en $11.490.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?
+CLIENTE: De contado, ya tengo la plata lista, como 11 millonzitos
+ASESOR: Perfecto. Ã‚Â¿Usted tiene cÃƒÂ³mo demostrar ingresos? Le puedo dejar el estudio de crÃƒÂ©dito adelantado
+CLIENTE: SÃƒÂ­ seÃƒÂ±or, trabajo en empresa con contrato fijo
+CLIENTE: Voy esta tarde para allÃƒÂ¡, Ã‚Â¿hasta quÃƒÂ© hora abren?
+ASESOR: Claro que sÃƒÂ­, lo esperamos. Estamos de 8 a 6, Ã‚Â¿le separo la moto mientras tanto?
+CLIENTE: HÃƒÂ¡gale pues, ya voy en camino",,,,,,,,,false

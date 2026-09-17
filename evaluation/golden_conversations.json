@@ -1,0 +1,178 @@
+{
+  "prompt_version": "conversation_extraction_v2",
+  "prompt_hash": "7d28ff5510941bfd84796be23bec17da7934c8261a2b16e698ca86c2ce8049f0",
+  "source": "evaluation/golden_review.csv",
+  "selection_note": "Solo incluye filas con reviewed=true y etiquetas humanas.",
+  "conversations": [
+    {
+      "conversation_id": "CONV-00587",
+      "conversation_text": "CLIENTE: Hola buenas, me interesa la Bajaj Pulsar RS 200\nASESOR: Ã‚Â¡Buenas tardes! Con mucho gusto le colaboro. La Bajaj Pulsar RS 200 estÃƒÂ¡ en $15.490.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?\nCLIENTE: Solo estaba mirando precios\nCLIENTE: Estoy mirando tambiÃƒÂ©n otra marca\nASESOR: Sin problema, cualquier cosa quedo atento por acÃƒÂ¡\nCLIENTE: Ok gracias",
+      "expected": {
+        "modelo_interes": "Bajaj Pulsar RS 200",
+        "presupuesto": null,
+        "cuota_inicial": null,
+        "forma_pago": "no_informa",
+        "intencion": "baja",
+        "objecion_principal": null,
+        "pidio_cita": false,
+        "pidio_cotizacion": false,
+        "evidencia": []
+      },
+      "reviewed": true,
+      "human_review_required": false
+    },
+    {
+      "conversation_id": "CONV-00162",
+      "conversation_text": "CLIENTE: Buenos dÃƒÂ­as, estoy averiguando por la AKT Evo RS 150\nASESOR: Ã‚Â¡Hola buenas! Con mucho gusto le colaboro. La AKT Evo RS 150 estÃƒÂ¡ en $7.190.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?\nCLIENTE: De contado, ya tengo la plata lista, 7,2 millones\nASESOR: Perfecto. Ã‚Â¿Usted tiene cÃƒÂ³mo demostrar ingresos? Le puedo dejar el estudio de crÃƒÂ©dito adelantado\nCLIENTE: SÃƒÂ­, soy independiente pero tengo extractos\nCLIENTE: Voy esta tarde para allÃƒÂ¡, Ã‚Â¿hasta quÃƒÂ© hora abren?\nASESOR: Claro que sÃƒÂ­, lo esperamos. Estamos de 8 a 6, Ã‚Â¿le separo la moto mientras tanto?\nCLIENTE: HÃƒÂ¡gale pues, ya voy en camino",
+      "expected": {
+        "modelo_interes": "AKT Evo RS 150",
+        "presupuesto": 7200000.0,
+        "cuota_inicial": null,
+        "forma_pago": "contado",
+        "intencion": "alta",
+        "objecion_principal": null,
+        "pidio_cita": true,
+        "pidio_cotizacion": false,
+        "evidencia": []
+      },
+      "reviewed": true,
+      "human_review_required": false
+    },
+    {
+      "conversation_id": "CONV-00292",
+      "conversation_text": "CLIENTE: Buenas, quiero informaciÃƒÂ³n de la Bajaj Pulsar NS 160\nASESOR: Ã‚Â¡Buenas tardes! Con mucho gusto le colaboro. La Bajaj Pulsar NS 160 estÃƒÂ¡ en $11.290.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?\nCLIENTE: Ã‚Â¿Y no tienen algo mÃƒÂ¡s econÃƒÂ³mico? tipo la Honda CB 190R\nASESOR: Claro. la Honda CB 190R estÃƒÂ¡ en $13.990.000 mÃƒÂ¡s papeles\nCLIENTE: Esa sÃƒÂ­ me sirve. Tengo 1000mil de inicial\nCLIENTE: Ã‚Â¿MaÃƒÂ±ana los visito?",
+      "expected": {
+        "modelo_interes": "Honda CB 190R",
+        "presupuesto": null,
+        "cuota_inicial": 1000000.0,
+        "forma_pago": "no_informa",
+        "intencion": "alta",
+        "objecion_principal": "precio",
+        "pidio_cita": true,
+        "pidio_cotizacion": false,
+        "evidencia": []
+      },
+      "reviewed": true,
+      "human_review_required": false
+    },
+    {
+      "conversation_id": "CONV-00018",
+      "conversation_text": "CLIENTE: QuÃƒÂ© mÃƒÂ¡s pues, vi el anuncio de la Bajaj Dominar 400\nASESOR: Ã‚Â¡Hola! Con mucho gusto le colaboro. La Bajaj Dominar 400 estÃƒÂ¡ en $24.900.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?\nCLIENTE: A crÃƒÂ©dito, Ã‚Â¿cÃƒÂ³mo es el proceso?\nASESOR: Con esa inicial la cuota le queda alrededor de $480.000 a 48 meses.\nCLIENTE: Esa tasa estÃƒÂ¡ muy alta\nASESOR: Le entiendo. Ã‚Â¿Le mando la cotizaciÃƒÂ³n formal al WhatsApp para que la revise con calma?\nCLIENTE: Listo, envÃƒÂ­emela",
+      "expected": {
+        "modelo_interes": "Bajaj Dominar 400",
+        "presupuesto": null,
+        "cuota_inicial": null,
+        "forma_pago": "credito",
+        "intencion": "alta",
+        "objecion_principal": "tasa",
+        "pidio_cita": false,
+        "pidio_cotizacion": true,
+        "evidencia": []
+      },
+      "reviewed": true,
+      "human_review_required": false
+    },
+    {
+      "conversation_id": "CONV-00502",
+      "conversation_text": "CLIENTE: QuÃƒÂ© mÃƒÂ¡s pues, me interesa la Hero Eco Deluxe 100\nASESOR: Ã‚Â¡Hola! Con mucho gusto le colaboro. La Hero Eco Deluxe 100 estÃƒÂ¡ en $4.990.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?\nCLIENTE: Financiada, tengo 2,0 millones para la inicial\nASESOR: Perfecto. Ã‚Â¿Usted tiene cÃƒÂ³mo demostrar ingresos? Le puedo dejar el estudio de crÃƒÂ©dito adelantado\nCLIENTE: Claro, tengo contrato indefinido\nCLIENTE: Ã‚Â¿A quÃƒÂ© hora los puedo visitar hoy?\nASESOR: Claro que sÃƒÂ­, lo esperamos. Estamos de 8 a 6, Ã‚Â¿le separo la moto mientras tanto?\nCLIENTE: HÃƒÂ¡gale pues, ya voy en camino",
+      "expected": {
+        "modelo_interes": "Hero Eco Deluxe 100",
+        "presupuesto": null,
+        "cuota_inicial": 2000000.0,
+        "forma_pago": "credito",
+        "intencion": "alta",
+        "objecion_principal": null,
+        "pidio_cita": true,
+        "pidio_cotizacion": false,
+        "evidencia": []
+      },
+      "reviewed": true,
+      "human_review_required": false
+    },
+    {
+      "conversation_id": "CONV-00210",
+      "conversation_text": "CLIENTE: Hola buenas, vi el anuncio de la Suzuki GN 125\nASESOR: Ã‚Â¡Buen dÃƒÂ­a! Con mucho gusto le colaboro. La Suzuki GN 125 estÃƒÂ¡ en $7.490.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?\nCLIENTE: Solo estaba mirando precios\nCLIENTE: No tengo inicial\nASESOR: Sin problema, cualquier cosa quedo atento por acÃƒÂ¡\nCLIENTE: Dale pues",
+      "expected": {
+        "modelo_interes": "Suzuki GN 125",
+        "presupuesto": null,
+        "cuota_inicial": 0.0,
+        "forma_pago": "no_informa",
+        "intencion": "baja",
+        "objecion_principal": "otra",
+        "pidio_cita": false,
+        "pidio_cotizacion": false,
+        "evidencia": []
+      },
+      "reviewed": true,
+      "human_review_required": false
+    },
+    {
+      "conversation_id": "CONV-00143",
+      "conversation_text": "CLIENTE: Buen dÃƒÂ­a, vi el anuncio de la Suzuki Best 125\nASESOR: Ã‚Â¡QsÃƒÂ©! Con mucho gusto le colaboro. La Suzuki Best 125 estÃƒÂ¡ en $6.590.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?\nCLIENTE: Financiada. Tengo como 1 millones, Ã‚Â¿alcanza para la inicial?\nASESOR: Con esa inicial la cuota le queda alrededor de $480.000 a 48 meses.\nCLIENTE: Es que la necesito esta semana\nASESOR: Le entiendo. Ã‚Â¿Le mando la cotizaciÃƒÂ³n formal al WhatsApp para que la revise con calma?\nCLIENTE: Listo, envÃƒÂ­emela",
+      "expected": {
+        "modelo_interes": "Suzuki Best 125",
+        "presupuesto": null,
+        "cuota_inicial": 1000000.0,
+        "forma_pago": "credito",
+        "intencion": "alta",
+        "objecion_principal": null,
+        "pidio_cita": false,
+        "pidio_cotizacion": true,
+        "evidencia": []
+      },
+      "reviewed": true,
+      "human_review_required": false
+    },
+    {
+      "conversation_id": "CONV-00613",
+      "conversation_text": "CLIENTE: Buenas tardes, estoy averiguando por la Honda CB 125F Twister\nASESOR: Ã‚Â¡Hola! Con mucho gusto le colaboro. La Honda CB 125F Twister estÃƒÂ¡ en $7.990.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?\nCLIENTE: Financiada, pero primero quiero saber cuÃƒÂ¡nto queda la cuota\nASESOR: Con esa inicial la cuota le queda alrededor de $480.000 a 48 meses.\nCLIENTE: Esa tasa estÃƒÂ¡ muy alta\nASESOR: Le entiendo. Ã‚Â¿Le mando la cotizaciÃƒÂ³n formal al WhatsApp para que la revise con calma?\nCLIENTE: Bueno, mÃƒÂ¡ndela y yo le digo",
+      "expected": {
+        "modelo_interes": "Honda CB 125F Twister",
+        "presupuesto": null,
+        "cuota_inicial": null,
+        "forma_pago": "credito",
+        "intencion": "alta",
+        "objecion_principal": "tasa",
+        "pidio_cita": false,
+        "pidio_cotizacion": true,
+        "evidencia": []
+      },
+      "reviewed": true,
+      "human_review_required": false
+    },
+    {
+      "conversation_id": "CONV-00090",
+      "conversation_text": "CLIENTE: QuÃƒÂ© mÃƒÂ¡s pues, me interesa la Bajaj Dominar 400\nASESOR: Ã‚Â¡QuÃƒÂ© mÃƒÂ¡s pues! Con mucho gusto le colaboro. La Bajaj Dominar 400 estÃƒÂ¡ en $24.900.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?\nCLIENTE: A crÃƒÂ©dito, Ã‚Â¿cÃƒÂ³mo es el proceso?\nASESOR: Con esa inicial la cuota le queda alrededor de $320.000 a 48 meses.\nCLIENTE: No, eso se me sale del presupuesto\nASESOR: Le entiendo. Ã‚Â¿Le mando la cotizaciÃƒÂ³n formal al WhatsApp para que la revise con calma?\nCLIENTE: SÃƒÂ­ porfa, mÃƒÂ¡ndemela",
+      "expected": {
+        "modelo_interes": "Bajaj Dominar 400",
+        "presupuesto": null,
+        "cuota_inicial": null,
+        "forma_pago": "credito",
+        "intencion": "alta",
+        "objecion_principal": "cuota",
+        "pidio_cita": false,
+        "pidio_cotizacion": true,
+        "evidencia": []
+      },
+      "reviewed": true,
+      "human_review_required": false
+    },
+    {
+      "conversation_id": "CONV-00134",
+      "conversation_text": "CLIENTE: Buenas tardes, me interesa la Honda Navi\nASESOR: Ã‚Â¡Buen dÃƒÂ­a! Con mucho gusto le colaboro. La Honda Navi estÃƒÂ¡ en $7.290.000 mÃƒÂ¡s matrÃƒÂ­cula y SOAT. Ã‚Â¿La estÃƒÂ¡ buscando de contado o financiada?\nCLIENTE: Solo estaba mirando precios\nCLIENTE: No, eso se me sale del presupuesto\nASESOR: Sin problema, cualquier cosa quedo atento por acÃƒÂ¡\nCLIENTE: Dale pues",
+      "expected": {
+        "modelo_interes": "Honda Navi",
+        "presupuesto": null,
+        "cuota_inicial": null,
+        "forma_pago": "no_informa",
+        "intencion": "baja",
+        "objecion_principal": "precio",
+        "pidio_cita": false,
+        "pidio_cotizacion": false,
+        "evidencia": []
+      },
+      "reviewed": true,
+      "human_review_required": false
+    }
+  ]
+}

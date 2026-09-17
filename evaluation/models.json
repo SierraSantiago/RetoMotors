@@ -1,0 +1,22 @@
+{
+  "provider": "openrouter",
+  "structured_output_required": true,
+  "candidates": [
+    "dots-studio/dots-3-note-preview:free",
+    "nex-agi/nex-n2.5-mini:free"
+  ],
+  "exploratory_options": [
+    "openrouter/free"
+  ],
+  "dataset_policy": {
+    "development_set": {
+      "reviewed_cases": 10,
+      "use": ["debugging", "preliminary_model_selection", "prompt_tuning"]
+    },
+    "holdout_final": {
+      "unreviewed_cases": 25,
+      "use": "final evaluation only after annotation; do not tune prompt on holdout"
+    }
+  },
+  "benchmark_scope": "development_set_only"
+}

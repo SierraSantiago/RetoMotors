@@ -14,6 +14,8 @@ class Settings(BaseSettings):
     openrouter_api_key: str | None = None
     llm_model_primary: str | None = None
     llm_model_fallback: str = "openrouter/free"
+    llm_max_completion_tokens: int = 4096
+    llm_timeout_seconds: float = 90.0
 
     model_config = SettingsConfigDict(
         env_file=".env",
