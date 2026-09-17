@@ -29,6 +29,7 @@ ingest-data = "reto_ia.ingestion.cli:main"
 process-conversations = "reto_ia.llm.cli:main"
 train-propensity = "reto_ia.ml.training:main"
 build-daily-priority = "reto_ia.priority.cli:main"
+load-help-knowledge = "reto_ia.help_knowledge.cli:main"
 
 [dependency-groups]
 dev = [
