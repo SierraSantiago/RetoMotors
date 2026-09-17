@@ -37,3 +37,20 @@ def test_daily_flow_is_sequential_and_does_not_train(monkeypatch):
     daily.run_daily_pipeline(assignment_date="2026-09-17")
 
     assert order == ["ingestion", "staging", "llm", "dbt", "score", "priority", "validate"]
+
+
+def test_daily_flow_skip_ingestion_continues_with_remaining_tasks(monkeypatch):
+    order = []
+    monkeypatch.setattr(daily, "source_ingestion", lambda *_: order.append("ingestion"))
+    monkeypatch.setattr(daily, "dbt_conversation_staging", lambda *_: order.append("staging"))
+    monkeypatch.setattr(daily, "pending_conversation_extraction", lambda *_: order.append("llm"))
+    monkeypatch.setattr(daily, "dbt_full_build", lambda *_: order.append("dbt"))
+    monkeypatch.setattr(
+        daily, "propensity_inference", lambda *_: order.append("score") or {"scored_rows": 0}
+    )
+    monkeypatch.setattr(daily, "daily_priority_assignment", lambda *_: order.append("priority"))
+    monkeypatch.setattr(daily, "operational_validation", lambda *_: order.append("validate") or {})
+
+    daily.run_daily_pipeline(assignment_date="2026-09-17", skip_ingestion=True)
+
+    assert order == ["staging", "llm", "dbt", "score", "priority", "validate"]

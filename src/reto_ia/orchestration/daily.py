@@ -151,9 +151,11 @@ def run_daily_pipeline(
     dbt_project_dir: str = "dbt",
     dbt_profiles_dir: str = "dbt",
     llm_batch_size: int = 16,
+    skip_ingestion: bool = False,
 ) -> dict[str, Any]:
     operational_date = assignment_date or date.today().isoformat()
-    source_ingestion(input_dir)
+    if not skip_ingestion:
+        source_ingestion(input_dir)
     dbt_conversation_staging(dbt_project_dir, dbt_profiles_dir)
     pending_conversation_extraction(llm_batch_size)
     dbt_full_build(dbt_project_dir, dbt_profiles_dir)
@@ -173,6 +175,11 @@ def main() -> None:
     parser.add_argument("--dbt-project-dir", default="dbt")
     parser.add_argument("--dbt-profiles-dir", default="dbt")
     parser.add_argument("--llm-batch-size", type=int, default=16)
+    parser.add_argument(
+        "--skip-ingestion",
+        action="store_true",
+        help="Omite la ingesta de archivos; usalo solo cuando RAW ya este materializada.",
+    )
     args = parser.parse_args()
     run_daily_pipeline(**vars(args))
 
