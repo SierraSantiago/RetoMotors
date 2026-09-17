@@ -231,7 +231,7 @@ def test_native_structured_output_configuration(monkeypatch):
             return "runnable"
 
     monkeypatch.setattr(llm_client, "build_llm", lambda model: FakeLLM())
-    assert llm_client.build_extraction_llm("openrouter/free") == "runnable"
+    assert llm_client.build_extraction_llm("gpt-5-nano") == "runnable"
     assert captured["schema"] is ConversationExtraction
     assert captured["kwargs"] == {
         "method": "json_schema",
@@ -240,12 +240,15 @@ def test_native_structured_output_configuration(monkeypatch):
     }
 
 
-def test_openrouter_provider_requires_parameters(monkeypatch):
-    monkeypatch.setattr(llm_client.settings, "openrouter_api_key", "test-key")
-    llm = llm_client.build_llm("openrouter/free")
-    assert llm.extra_body == {"provider": {"require_parameters": True}}
-    assert llm.max_tokens == 4096
+def test_openai_client_configuration(monkeypatch):
+    monkeypatch.setattr(llm_client.settings, "openai_api_key", "test-key")
+    llm = llm_client.build_llm("gpt-5-nano")
+    assert getattr(llm, "base_url", None) is None
+    assert getattr(llm, "extra_body", None) is None
+    assert llm.max_tokens == 16384
+    assert llm.reasoning_effort == "minimal"
     assert llm.request_timeout == 90.0
+    assert llm.max_retries == 0
 
 
 def test_csv_parser_loads_35_cases_with_10_reviewed():

@@ -9,12 +9,10 @@ class Settings(BaseSettings):
     supabase_anon_key: str | None = None
     supabase_service_role_key: str | None = None
 
-    llm_provider: str = "openrouter"
-    llm_base_url: str = "https://openrouter.ai/api/v1"
-    openrouter_api_key: str | None = None
-    llm_model_primary: str | None = None
-    llm_model_fallback: str = "openrouter/free"
-    llm_max_completion_tokens: int = 4096
+    openai_api_key: str | None = None
+    llm_model_primary: str = "gpt-5-nano"
+    llm_max_completion_tokens: int = 16384
+    llm_reasoning_effort: str = "minimal"
     llm_timeout_seconds: float = 90.0
 
     model_config = SettingsConfigDict(

@@ -25,6 +25,7 @@ dependencies = [
 
 [project.scripts]
 ingest-data = "reto_ia.ingestion.cli:main"
+process-conversations = "reto_ia.llm.cli:main"
 
 [dependency-groups]
 dev = [
