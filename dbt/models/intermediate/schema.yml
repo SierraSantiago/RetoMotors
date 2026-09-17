@@ -28,3 +28,35 @@ models:
               arguments:
                 to: ref('stg_catalogo_motos')
                 field: sku
+
+  - name: int_identity_signals
+    columns:
+      - name: raw_row_id
+        tests: [not_null]
+      - name: empresa_id
+        tests: [not_null]
+      - name: signal_type
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['SOURCE_LEAD_ID', 'PHONE', 'EMAIL']
+      - name: signal_value
+        tests: [not_null]
+
+  - name: int_lead_identity_map
+    columns:
+      - name: raw_row_id
+        tests: [not_null, unique]
+      - name: empresa_id
+        tests: [not_null]
+      - name: customer_identity_id
+        tests: [not_null]
+
+  - name: int_customer_identity
+    columns:
+      - name: customer_identity_id
+        tests: [not_null, unique]
+      - name: empresa_id
+        tests: [not_null]
+      - name: lead_count
+        tests: [not_null]
