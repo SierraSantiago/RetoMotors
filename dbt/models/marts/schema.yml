@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: mart_leads_enriched
+    description: >-
+      Mart interno de leads enriquecidos con las resoluciones deterministas
+      calculadas en staging e intermediate. Grain: one row per source lead row
+      (raw_row_id). customer_identity_id puede repetirse porque múltiples leads
+      pueden representar a la misma identidad comercial; este modelo no crea un
+      lead canónico ni consolida físicamente leads.
+    columns:
+      - name: raw_row_id
+        tests: [not_null, unique]
+      - name: customer_identity_id
+        tests: [not_null]
+      - name: empresa_id
+        tests: [not_null]
+      - name: match_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['MATCHED', 'REVIEW', 'AMBIGUOUS', 'UNMATCHED', 'MISSING']
+      - name: telefono_parse_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['VALID', 'INVALID', 'MISSING']
+
