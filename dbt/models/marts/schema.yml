@@ -26,3 +26,26 @@ models:
               arguments:
                 values: ['VALID', 'INVALID', 'MISSING']
 
+  - name: mart_lead_conversation_features
+    description: >-
+      Features conversacionales agregadas con grain one row per lead_id.
+      Valores no nulos usan la conversación más reciente; forma_pago usa el
+      último valor informativo e intencion la última distinta de indeterminada.
+      pidio_cita y pidio_cotizacion usan cualquier TRUE. Las conversaciones
+      huérfanas permanecen auditadas y no generan filas aquí.
+    columns:
+      - name: lead_id
+        tests: [not_null, unique]
+      - name: conversation_count
+        tests: [not_null]
+
+  - name: mart_leads_ai_enriched
+    description: >-
+      mart_leads_enriched enriquecido mediante LEFT JOIN con features de
+      conversaciones. Grain: exactamente el mismo, una fila por raw_row_id.
+      Leads sin conversación conservan su fila con flags false y count 0.
+    columns:
+      - name: raw_row_id
+        tests: [not_null, unique]
+      - name: lead_id
+        tests: [not_null]
